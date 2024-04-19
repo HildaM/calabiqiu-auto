@@ -46,7 +46,7 @@ def move_and_click(x, y):
     ctypes.windll.user32.SendInput(1, ctypes.byref(inp), ctypes.sizeof(inp))
 
 
-# 示例：在屏幕坐标开始处(955, 986)处点击
-time.sleep(5)
-move_and_click(955, 986)
+# 示例：在屏幕坐标开始处点击
+time.sleep(3)
+move_and_click(900, 983)
 print("完成点击")
