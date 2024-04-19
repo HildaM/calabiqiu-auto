@@ -44,7 +44,7 @@ next_image_paths = 'D:\\GitHub\\calabiqiu-auto\\images\\next.png'
 
 def check_one_image(image_path):
     try:
-        location = pyautogui.locateCenterOnScreen(image_path, confidence=0.6)
+        location = pyautogui.locateCenterOnScreen(image_path, confidence=0.8)
         if location:
             return True
     except pyautogui.ImageNotFoundException:
@@ -66,12 +66,13 @@ def loop(image_path):
 
 def check_images(image_list):
     for image_path in image_list:
-        location = pyautogui.locateCenterOnScreen(image_path, confidence=0.7)
-        if location:
-            return True
-        else:
-            return False
-
+        try:
+            location = pyautogui.locateCenterOnScreen(image_path, confidence=0.8)
+            if location:
+                return True
+        except pyautogui.ImageNotFoundException:
+            pass
+        return False
 
 def loopList(image_list):
     while True:
@@ -84,108 +85,121 @@ def loopList(image_list):
 
 
 # 循环启动脚本
+def main_loop():
+    print("循环启动脚本")
+    count = 0
+    while True:  # 无限循环
+        # 自动点击开始按钮：开1，开2
+        print("第{count}次对战")     
+        print("###################################")
+        print("自动点击开始按钮")
+        time.sleep(3)
+        loopList(start_image_paths)
+        pydirectinput.moveTo(960, 980)
+        pydirectinput.click()
+        print("自动点击开始按钮完毕")
+        print("###################################")
 
-# 自动点击开始按钮：开1，开2
-print("###################################")
-print("自动点击开始按钮")
-time.sleep(3)
-loopList(start_image_paths)
-pydirectinput.moveTo(960, 980)
-pydirectinput.click()
-print("自动点击开始按钮完毕")
-print("###################################")
+        # 自动点击进入链接：进  debugger
+        print("自动点击进入链接")
+        time.sleep(3)
+        loop(enter_image_paths)
+        pydirectinput.moveTo(970, 920)
+        pydirectinput.click()
+        time.sleep(0.5)
+        pydirectinput.click()
+        time.sleep(0.5)
+        pydirectinput.click()
+        print("自动点击进入链接完毕")
+        print("###################################")
 
-# 自动点击进入链接：进  debugger
-print("自动点击进入链接")
-time.sleep(3)
-loop(enter_image_paths)
-pydirectinput.moveTo(970, 920)
-pydirectinput.click()
-time.sleep(0.5)
-pydirectinput.click()
-time.sleep(0.5)
-pydirectinput.click()
-print("自动点击进入链接完毕")
-print("###################################")
+        # 自动选择奥黛丽：头像
+        print("自动选择奥黛丽")
+        time.sleep(3)
+        loop(ao_image_paths)
+        pydirectinput.moveTo(575, 996)
+        pydirectinput.click()
+        time.sleep(0.5)
+        pydirectinput.click()
+        time.sleep(0.5)
+        pydirectinput.click()
+        print("自动选择奥完毕")
+        print("###################################")
 
-# 自动选择奥黛丽：头像
-print("自动选择奥黛丽")
-time.sleep(3)
-loop(ao_image_paths)
-pydirectinput.moveTo(575, 996)
-pydirectinput.click()
-time.sleep(0.5)
-pydirectinput.click()
-time.sleep(0.5)
-pydirectinput.click()
-print("自动选择奥完毕")
-print("###################################")
+        # 自动选中锁定
+        print("自动选中锁定")
+        time.sleep(3)
+        loopList(lock_image_paths)
+        pydirectinput.moveTo(918, 779)
+        pydirectinput.click()
+        time.sleep(0.5)
+        pydirectinput.click()
+        time.sleep(0.5)
+        pydirectinput.click()
+        print("自动选中锁定完毕")
+        print("###################################")
 
-# 自动选中锁定
-print("自动选中锁定")
-time.sleep(3)
-loopList(lock_image_paths)
-pydirectinput.moveTo(918, 779)
-pydirectinput.click()
-time.sleep(0.5)
-pydirectinput.click()
-time.sleep(0.5)
-pydirectinput.click()
-print("自动选中锁定完毕")
-print("###################################")
+        # 对局没有哪么快结束，先睡180s
+        print("对局没有哪么快结束，先睡180s")
+        time.sleep(60)
+        print("已经睡了60s")
+        time.sleep(60)
+        print("已经睡了120s")
+        time.sleep(60)
+        print("结束睡眠")
+        print("###################################")
 
-# 对局没有哪么快结束，先睡180s
-print("对局没有哪么快结束，先睡180s")
-time.sleep(60)
-print("已经睡了60s")
-time.sleep(60)
-print("已经睡了120s")
-time.sleep(60)
-print("结束睡眠")
-print("###################################")
+        # 图片路径
 
-# 图片路径
+        # 图像识别上方比分，当到达45时候，移动人物
+        # 循环搜索
+        print("图像识别上方比分45-50")
+        loopList(image_paths)
+        print("图像识别上方比分完毕")
+        print("###################################")
+        # 保持运动等待游戏结束
+        print("保持运动等待游戏结束")
+        pydirectinput.press('w')
+        pydirectinput.click()
+        time.sleep(10)
+        pydirectinput.press('d')
+        pydirectinput.click()
+        time.sleep(10)
+        pydirectinput.press('w')
+        pydirectinput.click()
+        time.sleep(10)
+        pydirectinput.press('d')
+        pydirectinput.click()
+        time.sleep(10)
+        pydirectinput.press('w')
+        pydirectinput.click()
+        print("###################################")
 
-# 图像识别上方比分，当到达45时候，移动人物
-# 循环搜索
-print("图像识别上方比分45-50")
-loopList(image_paths)
-print("图像识别上方比分完毕")
-print("###################################")
-# 保持运动等待游戏结束
-print("保持运动等待游戏结束")
-pydirectinput.press('w')
-pydirectinput.click()
-time.sleep(10)
-pydirectinput.press('d')
-pydirectinput.click()
-time.sleep(10)
-print("###################################")
+        #图像识别：下一步
+        print("图像识别：下一步")
+        time.sleep(3)
+        loop(next_image_paths)
+        print("###################################")
 
-#图像识别：下一步
-print("图像识别：下一步")
-time.sleep(3)
-loop(next_image_paths)
-print("###################################")
+        # 点击下一步，下一步，退出
+        print("下一步")
+        time.sleep(3)
+        pydirectinput.moveTo(1628, 949)
+        pydirectinput.click()
+        time.sleep(3)
+        pydirectinput.moveTo(1628, 949)
+        pydirectinput.click()
+        time.sleep(3)
+        pydirectinput.moveTo(1628, 949)
+        pydirectinput.click()
+        time.sleep(3)
+        pydirectinput.moveTo(1628, 949)
+        pydirectinput.click()
+        time.sleep(3)
+        pydirectinput.moveTo(1628, 949)
+        pydirectinput.click()
+        print("退出完毕")
+        print("###################################")
 
-# 点击下一步，下一步，退出
-print("下一步")
-time.sleep(3)
-pydirectinput.moveTo(1628, 949)
-pydirectinput.click()
-time.sleep(3)
-pydirectinput.moveTo(1628, 949)
-pydirectinput.click()
-time.sleep(3)
-pydirectinput.moveTo(1628, 949)
-pydirectinput.click()
-time.sleep(3)
-pydirectinput.moveTo(1628, 949)
-pydirectinput.click()
-time.sleep(3)
-pydirectinput.moveTo(1628, 949)
-pydirectinput.click()
-print("退出完毕")
-print("###################################")
-
-input()
+# 运行主循环
+main_loop()
