@@ -1,4 +1,6 @@
 # 实现了游戏外有效果
+# 微信截图可以查看鼠标position(x=955, y=986)
+
 import pyautogui
 import os
 import time
