@@ -28,10 +28,16 @@ time.sleep(3)
 print('启动完成')
 
 # 图像导入，使用resource_path函数确保路径正确
-start_image_paths = [resource_path('images\\start1.png'), resource_path('images\\start2.png')]
+start_image_paths = [
+    resource_path('images\\start1.png'), 
+    resource_path('images\\start2.png')
+]
 enter_image_paths = resource_path('images\\enter.png')
 ao_image_paths = resource_path('images\\ao.png')
-lock_image_paths = [resource_path('images\\lock1.png'), resource_path('images\\lock2.png')]
+lock_image_paths = [
+    resource_path('images\\lock1.png'), 
+    resource_path('images\\lock2.png')
+]
 image_paths = [
     resource_path('images\\r-45.png'),
     resource_path('images\\r-46.png'),
@@ -45,7 +51,7 @@ image_paths = [
     resource_path('images\\b-49.png'),
 ]
 next_image_paths = resource_path('images\\next.png')
-
+upgrade_image_paths = resource_path('images\\back.png')
 # 检查图像
 def check_one_image(image_path):
     try:
@@ -56,6 +62,14 @@ def check_one_image(image_path):
         pass
     return False
 
+def get_image_position(image_path):
+    try:
+        location = pyautogui.locateCenterOnScreen(image_path, confidence=0.8)
+        if location:
+            return location
+    except pyautogui.ImageNotFoundException:
+        pass
+    return False
 
 def loop(image_path):
     loopCount=0
@@ -65,6 +79,18 @@ def loop(image_path):
         if found_pic:
             print("找到了")
             break
+        if loopCount>=10:
+            print("考虑升级情况")
+            upgrade_pic = check_one_image(upgrade_image_paths)
+            if upgrade_pic:
+                print("升级了")
+                location = get_image_position(upgrade_image_paths)
+                if location is not None:
+                    x = location.x
+                    y = location.y
+                pydirectinput.moveTo(x, y)
+                pydirectinput.click()
+                break
         print(loopCount,":没找到,等待五秒重新寻找...")
         time.sleep(5)
 
@@ -74,7 +100,7 @@ def loop(image_path):
 def check_images(image_list):
     for image_path in image_list:
         try:
-            location = pyautogui.locateCenterOnScreen(image_path, confidence=0.8)
+            location = pyautogui.locateCenterOnScreen(image_path, confidence=0.9)
             if location:
                 return True
         except pyautogui.ImageNotFoundException:
@@ -87,7 +113,7 @@ def loopList(image_list):
         loopListCount+=1
         found_pic = check_images(image_list)
         if found_pic:
-            print(f"找到了")
+            print("找到了")
             break
         print(loopListCount,":没找到,等待五秒重新寻找...")
         time.sleep(5)

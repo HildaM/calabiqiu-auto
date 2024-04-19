@@ -1,5 +1,5 @@
 @echo off
-python -i -m pip show pyinstaller
+python -m pip3 install loguru
 pause
 pause
 pause
