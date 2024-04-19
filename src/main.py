@@ -44,6 +44,7 @@ image_paths = [
     resource_path('images\\b-48.png'),
     resource_path('images\\b-49.png'),
 ]
+next_image_paths = resource_path('images\\next.png')
 
 # 检查图像
 def check_one_image(image_path):

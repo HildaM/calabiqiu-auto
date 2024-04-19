@@ -1,4 +1,4 @@
 @echo off
-python -m PyInstaller --onefile --add-data="images;images" --windowed .\main.py
+python -m PyInstaller --onedir --add-data="images;images" .\main.py
 pause
 pause
