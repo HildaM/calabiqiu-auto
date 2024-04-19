@@ -16,28 +16,29 @@ print('启动完成')
 
 # 图像导入
 start_image_paths = [
-    'D:\\GitHub\\calabiqiu-auto\\images\\start1.png',
-    'D:\\GitHub\\calabiqiu-auto\\images\\start2.png'
+    '../images/start1.png',
+    '../images/start2.png'
 ]
-enter_image_paths = 'D:\\GitHub\\calabiqiu-auto\\images\\enter.png'
-ao_image_paths = 'D:\\GitHub\\calabiqiu-auto\\images\\ao.png'
+enter_image_paths = '../images/enter.png'
+ao_image_paths = '../images/ao.png'
 lock_image_paths = [
-    'D:\\GitHub\\calabiqiu-auto\\images\\lock1.png',
-    'D:\\GitHub\\calabiqiu-auto\\images\\lock2.png'
+    '../images/lock1.png',
+    '../images/lock2.png'
 ]
 image_paths = [
-    'D:\\GitHub\\calabiqiu-auto\\images\\r-45.png',
-    'D:\\GitHub\\calabiqiu-auto\\images\\r-46.png',
-    'D:\\GitHub\\calabiqiu-auto\\images\\r-47.png',
-    'D:\\GitHub\\calabiqiu-auto\\images\\r-48.png',
-    'D:\\GitHub\\calabiqiu-auto\\images\\r-49.png',
-    'D:\\GitHub\\calabiqiu-auto\\images\\b-45.png',
-    'D:\\GitHub\\calabiqiu-auto\\images\\b-46.png',
-    'D:\\GitHub\\calabiqiu-auto\\images\\b-47.png',
-    'D:\\GitHub\\calabiqiu-auto\\images\\b-48.png',
-    'D:\\GitHub\\calabiqiu-auto\\images\\b-49.png'
+    '../images/r-45.png',
+    '../images/r-46.png',
+    '../images/r-47.png',
+    '../images/r-48.png',
+    '../images/r-49.png',
+    '../images/b-45.png',
+    '../images/b-46.png',
+    '../images/b-47.png',
+    '../images/b-48.png',
+    '../images/b-49.png'
 ]
-next_image_paths = 'D:\\GitHub\\calabiqiu-auto\\images\\next.png'
+next_image_paths = '../images/next.png'
+
 
 # 检查图像
 
@@ -90,7 +91,8 @@ def main_loop():
     count = 0
     while True:  # 无限循环
         # 自动点击开始按钮：开1，开2
-        print("第{count}次对战")     
+        count += 1
+        print("第",count,"次对战")     
         print("###################################")
         print("自动点击开始按钮")
         time.sleep(3)

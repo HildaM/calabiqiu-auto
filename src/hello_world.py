@@ -1,4 +1,5 @@
-msg = 'Hello World'
-print(msg)
+# #测试
+# msg = 'Hello World'
+# print(msg)
 
-input()
+# input()
