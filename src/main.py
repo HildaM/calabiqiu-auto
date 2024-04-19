@@ -1,3 +1,4 @@
+#最终解决方案：pydirectinput
 import pyautogui
 import pydirectinput
 import time
