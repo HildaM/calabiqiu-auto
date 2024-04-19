@@ -58,12 +58,14 @@ def check_one_image(image_path):
 
 
 def loop(image_path):
+    loopCount=0
     while True:
+        loopCount+=1
         found_pic = check_one_image(image_path)
         if found_pic:
             print("找到了")
             break
-        print("没找到,等待五秒重新寻找...")
+        print(loopCount,":没找到,等待五秒重新寻找...")
         time.sleep(5)
 
 # 检查图像列表
@@ -80,12 +82,14 @@ def check_images(image_list):
         return False
 
 def loopList(image_list):
+    loopListCount=0
     while True:
+        loopListCount+=1
         found_pic = check_images(image_list)
         if found_pic:
             print(f"找到了")
             break
-        print("没找到,等待五秒重新寻找...")
+        print(loopListCount,":没找到,等待五秒重新寻找...")
         time.sleep(5)
 
 
@@ -145,14 +149,16 @@ def main_loop():
         print("自动选中锁定完毕")
         print("###################################")
 
-        # 对局没有哪么快结束，先睡180s
-        print("对局没有哪么快结束，先睡180s")
+        # 对局没有哪么快结束，先睡3min30s=210s
+        print("对局没有哪么快结束，先睡210s")
         time.sleep(60)
         print("已经睡了60s")
         time.sleep(60)
         print("已经睡了120s")
         time.sleep(60)
-        print("结束睡眠")
+        print("已经睡了180s")
+        time.sleep(60)
+        print("结束210s睡眠")
         print("###################################")
 
         # 图片路径
