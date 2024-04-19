@@ -35,6 +35,7 @@ image_paths = [
     'D:\\GitHub\\calabiqiu-auto\\images\\b-46.png',
     'D:\\GitHub\\calabiqiu-auto\\images\\b-47.png',
     'D:\\GitHub\\calabiqiu-auto\\images\\b-48.png',
+    'D:\\GitHub\\calabiqiu-auto\\images\\b-49.png'
 ]
 next_image_paths = 'D:\\GitHub\\calabiqiu-auto\\images\\next.png'
 
@@ -135,7 +136,11 @@ print("###################################")
 
 # 对局没有哪么快结束，先睡180s
 print("对局没有哪么快结束，先睡180s")
-time.sleep(180)
+time.sleep(60)
+print("已经睡了60s")
+time.sleep(60)
+print("已经睡了120s")
+time.sleep(60)
 print("结束睡眠")
 print("###################################")
 
@@ -146,25 +151,25 @@ print("###################################")
 print("图像识别上方比分45-50")
 loopList(image_paths)
 print("图像识别上方比分完毕")
+print("###################################")
 # 保持运动等待游戏结束
+print("保持运动等待游戏结束")
+pydirectinput.press('w')
+pydirectinput.click()
+time.sleep(10)
+pydirectinput.press('d')
+pydirectinput.click()
+time.sleep(10)
 print("###################################")
 
-
-print("保持移动 + 图像识别：退出")
-while True:
-    found_pic = check_one_image(next_image_paths)
-    if found_pic:
-        print("找到了")
-        break
-    print("对局还没有结束,等待五秒重新寻找...")
-    pydirectinput.press('w')
-    time.sleep(5)
-print("自动选择退出完毕")
+#图像识别：下一步
+print("图像识别：下一步")
+time.sleep(3)
+loop(next_image_paths)
 print("###################################")
-
 
 # 点击下一步，下一步，退出
-print("退出")
+print("下一步")
 time.sleep(3)
 pydirectinput.moveTo(1628, 949)
 pydirectinput.click()
