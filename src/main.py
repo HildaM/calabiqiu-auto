@@ -4,46 +4,48 @@ import pydirectinput
 import time
 import pyautogui
 import os
+import sys
+
 # 禁用自动停止
 pyautogui.FAILSAFE = False
 
 # 设置当前工作目录
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
+# 获取资源的绝对路径，用于PyInstaller打包后资源的访问
+def resource_path(relative_path):
+    if getattr(sys, 'frozen', False):
+        # 如果程序被打包成了单个文件
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
+
 # 启动脚本延时
 print('脚本启动中...')
 time.sleep(3)
 print('启动完成')
 
-# 图像导入
-start_image_paths = [
-    '../images/start1.png',
-    '../images/start2.png'
-]
-enter_image_paths = '../images/enter.png'
-ao_image_paths = '../images/ao.png'
-lock_image_paths = [
-    '../images/lock1.png',
-    '../images/lock2.png'
-]
+# 图像导入，使用resource_path函数确保路径正确
+start_image_paths = [resource_path('images\\start1.png'), resource_path('images\\start2.png')]
+enter_image_paths = resource_path('images\\enter.png')
+ao_image_paths = resource_path('images\\ao.png')
+lock_image_paths = [resource_path('images\\lock1.png'), resource_path('images\\lock2.png')]
 image_paths = [
-    '../images/r-45.png',
-    '../images/r-46.png',
-    '../images/r-47.png',
-    '../images/r-48.png',
-    '../images/r-49.png',
-    '../images/b-45.png',
-    '../images/b-46.png',
-    '../images/b-47.png',
-    '../images/b-48.png',
-    '../images/b-49.png'
+    resource_path('images\\r-45.png'),
+    resource_path('images\\r-46.png'),
+    resource_path('images\\r-47.png'),
+    resource_path('images\\r-48.png'),
+    resource_path('images\\r-49.png'),
+    resource_path('images\\b-45.png'),
+    resource_path('images\\b-46.png'),
+    resource_path('images\\b-47.png'),
+    resource_path('images\\b-48.png'),
+    resource_path('images\\b-49.png'),
 ]
-next_image_paths = '../images/next.png'
-
 
 # 检查图像
-
-
 def check_one_image(image_path):
     try:
         location = pyautogui.locateCenterOnScreen(image_path, confidence=0.8)
