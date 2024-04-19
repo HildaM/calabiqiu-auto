@@ -21,17 +21,20 @@ start_image_paths = [
 ]
 enter_image_paths = 'D:\\GitHub\\calabiqiu-auto\\images\\enter.png'
 ao_image_paths = 'D:\\GitHub\\calabiqiu-auto\\images\\ao.png'
+lock_image_paths = [
+    'D:\\GitHub\\calabiqiu-auto\\images\\lock1.png',
+    'D:\\GitHub\\calabiqiu-auto\\images\\lock2.png'
+]
 image_paths = [
     'D:\\GitHub\\calabiqiu-auto\\images\\r-45.png',
     'D:\\GitHub\\calabiqiu-auto\\images\\r-46.png',
     'D:\\GitHub\\calabiqiu-auto\\images\\r-47.png',
     'D:\\GitHub\\calabiqiu-auto\\images\\r-48.png',
     'D:\\GitHub\\calabiqiu-auto\\images\\r-49.png',
-    # 'D:\\GitHub\\calabiqiu-auto\\images\\b-45.png',
+    'D:\\GitHub\\calabiqiu-auto\\images\\b-45.png',
     'D:\\GitHub\\calabiqiu-auto\\images\\b-46.png',
-    # 'D:\\GitHub\\calabiqiu-auto\\images\\b-47.png',
+    'D:\\GitHub\\calabiqiu-auto\\images\\b-47.png',
     'D:\\GitHub\\calabiqiu-auto\\images\\b-48.png',
-    # 'D:\\GitHub\\calabiqiu-auto\\images\\b-49.png'
 ]
 next_image_paths = 'D:\\GitHub\\calabiqiu-auto\\images\\next.png'
 
@@ -39,11 +42,13 @@ next_image_paths = 'D:\\GitHub\\calabiqiu-auto\\images\\next.png'
 
 
 def check_one_image(image_path):
-    location = pyautogui.locateCenterOnScreen(image_path, confidence=0.6)
-    if location != None:
-        return True
-    else:
-        return False
+    try:
+        location = pyautogui.locateCenterOnScreen(image_path, confidence=0.6)
+        if location:
+            return True
+    except pyautogui.ImageNotFoundException:
+        pass
+    return False
 
 
 def loop(image_path):
@@ -80,13 +85,14 @@ def loopList(image_list):
 # 循环启动脚本
 
 # 自动点击开始按钮：开1，开2
+print("###################################")
 print("自动点击开始按钮")
 time.sleep(3)
 loopList(start_image_paths)
 pydirectinput.moveTo(960, 980)
 pydirectinput.click()
 print("自动点击开始按钮完毕")
-
+print("###################################")
 
 # 自动点击进入链接：进  debugger
 print("自动点击进入链接")
@@ -94,7 +100,12 @@ time.sleep(3)
 loop(enter_image_paths)
 pydirectinput.moveTo(970, 920)
 pydirectinput.click()
+time.sleep(0.5)
+pydirectinput.click()
+time.sleep(0.5)
+pydirectinput.click()
 print("自动点击进入链接完毕")
+print("###################################")
 
 # 自动选择奥黛丽：头像
 print("自动选择奥黛丽")
@@ -102,32 +113,55 @@ time.sleep(3)
 loop(ao_image_paths)
 pydirectinput.moveTo(575, 996)
 pydirectinput.click()
+time.sleep(0.5)
+pydirectinput.click()
+time.sleep(0.5)
+pydirectinput.click()
 print("自动选择奥完毕")
+print("###################################")
 
-# 对局没有哪么快结束，先睡120s
-time.sleep(120)
+# 自动选中锁定
+print("自动选中锁定")
+time.sleep(3)
+loopList(lock_image_paths)
+pydirectinput.moveTo(918, 779)
+pydirectinput.click()
+time.sleep(0.5)
+pydirectinput.click()
+time.sleep(0.5)
+pydirectinput.click()
+print("自动选中锁定完毕")
+print("###################################")
 
+# 对局没有哪么快结束，先睡180s
+print("对局没有哪么快结束，先睡180s")
+time.sleep(180)
+print("结束睡眠")
+print("###################################")
 
 # 图片路径
 
 # 图像识别上方比分，当到达45时候，移动人物
 # 循环搜索
-print("图像识别上方比分")
+print("图像识别上方比分45-50")
 loopList(image_paths)
 print("图像识别上方比分完毕")
 # 保持运动等待游戏结束
+print("###################################")
 
-print("自动选择退出")
+
+print("保持移动 + 图像识别：退出")
 while True:
     found_pic = check_one_image(next_image_paths)
     if found_pic:
         print("找到了")
         break
     print("对局还没有结束,等待五秒重新寻找...")
-    pydirectinput.moveTo(1628, 949)
-    pydirectinput.click()
+    pydirectinput.press('w')
     time.sleep(5)
 print("自动选择退出完毕")
+print("###################################")
+
 
 # 点击下一步，下一步，退出
 print("退出")
@@ -140,7 +174,13 @@ pydirectinput.click()
 time.sleep(3)
 pydirectinput.moveTo(1628, 949)
 pydirectinput.click()
+time.sleep(3)
+pydirectinput.moveTo(1628, 949)
+pydirectinput.click()
+time.sleep(3)
+pydirectinput.moveTo(1628, 949)
+pydirectinput.click()
 print("退出完毕")
-
+print("###################################")
 
 input()
