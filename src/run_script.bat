@@ -1,4 +1,4 @@
 @echo off
-python -i my_script_pydirectinput.py
+python -i main.py
 pause
 pause
