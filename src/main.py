@@ -68,8 +68,10 @@ image_paths = [
     resource_path('images\\b-48.png'),
     resource_path('images\\b-49.png'),
 ]
-next_image_paths = resource_path('images\\next.png')
-upgrade_image_paths = resource_path('images\\back.png')
+next_images_paths = [
+    resource_path('images\\next.png'),
+    resource_path('images\\back.png')
+]
 
 
 # 检查图像
@@ -83,16 +85,6 @@ def check_one_image(image_path):
     return False
 
 
-def get_position(image_path):
-    try:
-        location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=0.95)
-        if location:
-            return location
-    except pyautogui.ImageNotFoundException:
-        pass
-    return False
-
-
 def loop(image_path):
     loopCount = 0
     while True:
@@ -101,14 +93,6 @@ def loop(image_path):
         if found_pic:
             print("找到了")
             break
-        if loopCount >= 10:
-            print("考虑升级情况")
-            upgrade_pic = get_position(upgrade_image_paths)
-            if upgrade_pic:
-                print("升级了")
-                pydirectinput.moveTo(upgrade_pic.x, upgrade_pic.y)
-                pydirectinput.click()
-                break
         print(loopCount, ":没找到,等待五秒重新寻找...")
         time.sleep(5)
 
@@ -223,27 +207,36 @@ def main():
         # 保持运动等待游戏结束
         logger.debug("保持运动等待游戏结束")
         pydirectinput.press('w')
-        pydirectinput.click()
+        pydirectinput.click(775, 926)
         time.sleep(10)
         pydirectinput.press('d')
-        pydirectinput.click()
+        pydirectinput.click(775, 926)
         time.sleep(10)
         pydirectinput.press('w')
-        pydirectinput.click()
+        pydirectinput.click(775, 926)
         time.sleep(10)
         pydirectinput.press('d')
-        pydirectinput.click()
+        pydirectinput.click(775, 926)
         time.sleep(10)
         pydirectinput.press('w')
-        pydirectinput.click()
+        pydirectinput.click(775, 926)
         logger.debug("###################################")
 
-        # 图像识别：下一步
-        logger.debug("图像识别：下一步")
+        # 图像识别：下一步或者升级
+        logger.debug("图像识别：下一步或者升级")
         time.sleep(3)
-        loop(next_image_paths)
+        loopList(next_images_paths)
         logger.debug("###################################")
 
+        # 点击升级的返回按钮
+        logger.debug("升级检测")
+        time.sleep(3)
+        pydirectinput.moveTo(775, 926)
+        pydirectinput.click()
+        time.sleep(3)
+        pydirectinput.moveTo(775, 926)
+        logging.debug(pyautogui.position())
+        pydirectinput.click()
         # 点击下一步，下一步，退出
         logger.debug("下一步")
         time.sleep(3)
