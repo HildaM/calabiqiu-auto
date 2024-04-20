@@ -75,9 +75,19 @@ upgrade_image_paths = resource_path('images\\back.png')
 # 检查图像
 def check_one_image(image_path):
     try:
-        location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=0.7)
+        location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=0.9)
         if location:
             return True
+    except pyautogui.ImageNotFoundException:
+        pass
+    return False
+
+
+def get_postion(image_path):
+    try:
+        location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=0.9)
+        if location:
+            return location
     except pyautogui.ImageNotFoundException:
         pass
     return False
@@ -91,18 +101,14 @@ def loop(image_path):
         if found_pic:
             print("找到了")
             break
-        # if loopCount >= 10:
-        #     print("考虑升级情况")
-        #     upgrade_pic = check_one_image(upgrade_image_paths)
-        #     if upgrade_pic:
-        #         print("升级了")
-        #         location = get_image_position(upgrade_image_paths)
-        #         if location is not None:
-        #             x = location.x
-        #             y = location.y
-        #             pydirectinput.moveTo(x, y)
-        #             pydirectinput.click()
-        #         break
+        if loopCount >= 10:
+            print("考虑升级情况")
+            upgrade_pic = get_postion(upgrade_image_paths)
+            if upgrade_pic:
+                print("升级了")
+                pydirectinput.moveTo(upgrade_pic.x, upgrade_pic.y)
+                pydirectinput.click()
+                break
         print(loopCount, ":没找到,等待五秒重新寻找...")
         time.sleep(5)
 
@@ -112,7 +118,7 @@ def loop(image_path):
 def check_images(image_list):
     for image_path in image_list:
         try:
-            location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=0.6)
+            location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=0.9)
             if location:
                 return True
         except pyautogui.ImageNotFoundException:
@@ -147,6 +153,7 @@ def main():
         time.sleep(3)
         loopList(start_image_paths)
         pydirectinput.moveTo(960, 980)
+        logging.debug(pyautogui.position())
         pydirectinput.click()
         logger.debug("自动点击开始按钮完毕")
         logger.debug("###################################")
@@ -156,6 +163,7 @@ def main():
         time.sleep(3)
         loop(enter_image_paths)
         pydirectinput.moveTo(970, 920)
+        logging.debug(pyautogui.position())
         pydirectinput.click()
         time.sleep(0.5)
         pydirectinput.click()
@@ -169,6 +177,7 @@ def main():
         time.sleep(3)
         loop(ao_image_paths)
         pydirectinput.moveTo(575, 996)
+        logging.debug(pyautogui.position())
         pydirectinput.click()
         time.sleep(0.5)
         pydirectinput.click()
@@ -182,6 +191,7 @@ def main():
         time.sleep(3)
         loopList(lock_image_paths)
         pydirectinput.moveTo(918, 779)
+        logging.debug(pyautogui.position())
         pydirectinput.click()
         time.sleep(0.5)
         pydirectinput.click()
@@ -238,6 +248,7 @@ def main():
         logger.debug("下一步")
         time.sleep(3)
         pydirectinput.moveTo(1628, 949)
+        logging.debug(pyautogui.position())
         pydirectinput.click()
         time.sleep(3)
         pydirectinput.moveTo(1628, 949)
