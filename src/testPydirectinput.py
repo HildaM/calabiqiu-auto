@@ -12,3 +12,20 @@ location = pyautogui.locateCenterOnScreen(test_image_paths)
 print(location)
 print(location.x)
 print(location.y)
+
+def get_position(image_path):
+    try:
+        location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=0.9)
+        if location:
+            return location
+    except pyautogui.ImageNotFoundException:
+        pass
+    return False
+
+print("考虑升级情况")
+upgrade_pic = get_position(test_image_paths)
+if upgrade_pic:
+    print("升级了")
+    pydirectinput.moveTo(upgrade_pic.x, upgrade_pic.y)
+    pydirectinput.click()
+

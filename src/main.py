@@ -83,7 +83,7 @@ def check_one_image(image_path):
     return False
 
 
-def get_postion(image_path):
+def get_position(image_path):
     try:
         location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=0.9)
         if location:
@@ -103,7 +103,7 @@ def loop(image_path):
             break
         if loopCount >= 10:
             print("考虑升级情况")
-            upgrade_pic = get_postion(upgrade_image_paths)
+            upgrade_pic = get_position(upgrade_image_paths)
             if upgrade_pic:
                 print("升级了")
                 pydirectinput.moveTo(upgrade_pic.x, upgrade_pic.y)
