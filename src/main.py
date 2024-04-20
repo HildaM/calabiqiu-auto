@@ -85,7 +85,7 @@ def check_one_image(image_path):
 
 def get_position(image_path):
     try:
-        location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=0.9)
+        location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=0.95)
         if location:
             return location
     except pyautogui.ImageNotFoundException:
