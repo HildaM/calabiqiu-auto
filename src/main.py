@@ -35,12 +35,6 @@ def resource_path(relative_path):
     base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)
 
-
-# 启动脚本延时
-print('脚本启动中...')
-time.sleep(3)
-print('启动完成')
-
 # 图像导入，使用resource_path函数确保路径正确
 # start_image_paths = [
 #     resource_path('images\\start1.png'),
@@ -70,14 +64,15 @@ image_paths = [
 ]
 next_images_paths = [
     resource_path('images\\next.png'),
-    resource_path('images\\back.png')
+    resource_path('images\\back1.png'),
+    resource_path('images\\back2.png')
 ]
 
 
 # 检查图像
 def check_one_image(image_path):
     try:
-        location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=0.9)
+        location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=0.8)
         if location:
             return True
     except pyautogui.ImageNotFoundException:
@@ -93,6 +88,9 @@ def loop(image_path):
         if found_pic:
             print("找到了")
             break
+        if loopCount >= 50:
+            print("循环超过50次，跳出循环")
+            break
         print(loopCount, ":没找到,等待五秒重新寻找...")
         time.sleep(5)
 
@@ -102,7 +100,7 @@ def loop(image_path):
 def check_images(image_list):
     for image_path in image_list:
         try:
-            location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=0.9)
+            location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=0.8)
             if location:
                 return True
         except pyautogui.ImageNotFoundException:
@@ -118,6 +116,9 @@ def loopList(image_list):
         if found_pic:
             print("找到了")
             break
+        if loopListCount >=50:
+            print("循环超过50次，跳出循环")
+            break
         print(loopListCount, ":没找到,等待五秒重新寻找...")
         time.sleep(5)
 
@@ -126,7 +127,10 @@ def main():
     setup_logging()
     logger = logging.getLogger("root")
     # 运行主循环
-    logger.debug("循环启动脚本")
+    # 启动脚本延时
+    logger.debug('脚本启动中...')
+    time.sleep(3)
+    logger.debug('启动完成')
     count = 0
     while True:  # 无限循环
         # 自动点击开始按钮：开1，开2
@@ -207,37 +211,42 @@ def main():
         # 保持运动等待游戏结束
         logger.debug("保持运动等待游戏结束")
         pydirectinput.press('w')
-        pydirectinput.click(775, 926)
+        pydirectinput.click(766, 970)
         time.sleep(10)
         pydirectinput.press('d')
-        pydirectinput.click(775, 926)
+        pydirectinput.click(766, 970)
         time.sleep(10)
         pydirectinput.press('w')
-        pydirectinput.click(775, 926)
+        pydirectinput.click(766, 970)
         time.sleep(10)
         pydirectinput.press('d')
-        pydirectinput.click(775, 926)
+        pydirectinput.click(766, 970)
         time.sleep(10)
         pydirectinput.press('w')
-        pydirectinput.click(775, 926)
+        pydirectinput.click(766, 970)
         logger.debug("###################################")
 
         # 图像识别：下一步或者升级
-        logger.debug("图像识别：下一步或者升级")
+        logger.debug("图像识别：下一步或者升级检测")
         time.sleep(3)
         loopList(next_images_paths)
+        logger.debug("图像识别完毕")
         logger.debug("###################################")
 
         # 点击升级的返回按钮
-        logger.debug("升级检测")
-        time.sleep(3)
-        pydirectinput.moveTo(775, 926)
+        logger.debug("###################################")
+        logger.debug("升级")
+        time.sleep(1)
+        pydirectinput.moveTo(766, 970)
         pydirectinput.click()
-        time.sleep(3)
-        pydirectinput.moveTo(775, 926)
+        time.sleep(1)
+        pydirectinput.moveTo(766, 970)
         logging.debug(pyautogui.position())
         pydirectinput.click()
+        logger.debug("升级, 完毕")
+        logger.debug("###################################")
         # 点击下一步，下一步，退出
+        logger.debug("###################################")
         logger.debug("下一步")
         time.sleep(3)
         pydirectinput.moveTo(1628, 949)
