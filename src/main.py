@@ -287,10 +287,10 @@ def main():
         # 点击升级的返回按钮
         logger.debug("###################################")
         logger.debug("升级")
-        time.sleep(1)
+        time.sleep(3)
         pydirectinput.moveTo(766, 970)
         pydirectinput.click()
-        time.sleep(1)
+        time.sleep(3)
         pydirectinput.moveTo(766, 970)
         logging.debug(pyautogui.position())
         pydirectinput.click()
