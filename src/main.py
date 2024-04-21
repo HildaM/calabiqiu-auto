@@ -7,8 +7,19 @@ import logging.config
 import json
 
 
+# 获取资源的绝对路径，用于PyInstaller打包后资源的访问
+def resource_path(relative_path):
+    # if getattr(sys, 'frozen', False):
+    #     # 如果程序被打包成了单个文件
+    #     base_path = sys._MEIPASS
+    # else:
+    base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
+
 # 日志文件
-def setup_logging(default_path='D:\\GitHub\\calabiqiu-auto\\src\\logging_configs\\config.json'):
+# def setup_logging(default_path='D:\\GitHub\\calabiqiu-auto\\src\\logging_configs\\config.json'):
+def setup_logging(default_path=resource_path('logging_configs\\config.json')):
     """Setup logging configuration"""
     if os.path.exists(default_path):
         with open(default_path, 'rt') as f:
@@ -19,7 +30,6 @@ def setup_logging(default_path='D:\\GitHub\\calabiqiu-auto\\src\\logging_configs
         print("Failed to load configuration file. Using default configs")
 
 
-
 # 禁用自动停止
 pyautogui.FAILSAFE = False
 
@@ -27,24 +37,15 @@ pyautogui.FAILSAFE = False
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
-# 获取资源的绝对路径，用于PyInstaller打包后资源的访问
-def resource_path(relative_path):
-    # if getattr(sys, 'frozen', False):
-    #     # 如果程序被打包成了单个文件
-    #     base_path = sys._MEIPASS
-    # else:
-    base_path = os.path.abspath(".")
-    return os.path.join(base_path, relative_path)
-
 # 图像导入，使用resource_path函数确保路径正确
-# start_image_paths = [
-#     resource_path('images\\start1.png'),
-#     resource_path('images\\start2.png')
-# ]
 start_image_paths = [
-    'D:\\GitHub\\calabiqiu-auto\\src\\images\\start1.png',
-    'D:\\GitHub\\calabiqiu-auto\\src\\images\\start2.png'
+    resource_path('images\\start1.png'),
+    resource_path('images\\start2.png')
 ]
+# start_image_paths = [
+#     'D:\\GitHub\\calabiqiu-auto\\src\\images\\start1.png',
+#     'D:\\GitHub\\calabiqiu-auto\\src\\images\\start2.png'
+# ]
 enter_image_paths = resource_path('images\\enter.png')
 chooseRole_image_paths = resource_path('images\\chooseRole.png')
 ao_image_paths = resource_path('images\\ao.png')
@@ -70,6 +71,7 @@ next_images_paths = [
     resource_path('images\\back2.png')
 ]
 
+
 # 获取x和y坐标
 def check_one_image_location(image_path):
     try:
@@ -79,6 +81,7 @@ def check_one_image_location(image_path):
     except pyautogui.ImageNotFoundException:
         pass
     return False
+
 
 # 检查图像
 def check_one_image(image_path):
@@ -106,7 +109,7 @@ def loop(image_path):
         time.sleep(5)
 
 
-def loopAndClick(image_path,x,y):
+def loopAndClick(image_path, x, y):
     loopCount = 0
     while True:
         loopCount += 1
@@ -123,6 +126,7 @@ def loopAndClick(image_path,x,y):
         pydirectinput.click()
         time.sleep(5)
 # 检查图像列表
+
 
 def check_images(image_list):
     for image_path in image_list:
@@ -143,7 +147,7 @@ def loopList(image_list):
         if found_pic:
             print("找到了")
             break
-        if loopListCount >=50:
+        if loopListCount >= 50:
             print("循环超过50次，跳出循环")
             break
         print(loopListCount, ":没找到,等待五秒重新寻找...")
@@ -314,6 +318,7 @@ def main():
         logger.debug("退出完毕")
         logger.debug("###################################")
         logger.debug("==================================================")
+
 
 if __name__ == "__main__":
     main()
