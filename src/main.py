@@ -19,6 +19,7 @@ def setup_logging(default_path='D:\\GitHub\\calabiqiu-auto\\src\\logging_configs
         print("Failed to load configuration file. Using default configs")
 
 
+
 # 禁用自动停止
 pyautogui.FAILSAFE = False
 
@@ -68,6 +69,15 @@ next_images_paths = [
     resource_path('images\\back2.png')
 ]
 
+# 获取x和y坐标
+# def check_one_image_location(image_path):
+#     try:
+#         location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=0.8)
+#         if location:
+#             return location
+#     except pyautogui.ImageNotFoundException:
+#         pass
+#     return False
 
 # 检查图像
 def check_one_image(image_path):
@@ -164,8 +174,18 @@ def main():
         logger.debug("自动选择奥黛丽")
         time.sleep(3)
         loop(ao_image_paths)
-        pydirectinput.moveTo(575, 996)
-        logging.debug(pyautogui.position())
+        # 每个人的奥黛丽顺序不同，这个坐标只能手动获取
+        # 存在识别不到图像的bug，坐标回到手动配置
+        # location = check_one_image_location(ao_image_paths)
+        # if location:
+        #     pydirectinput.moveTo(location.x, location.y)
+        #     logging.debug("奥黛丽坐标为x=%s，y=%s", location.x, location.y)
+        # else:
+        #     pydirectinput.moveTo(575, 996)
+        # 东雪莲office，x=789，y=992
+        pydirectinput.moveTo(789, 992)
+        # vx 2 号的坐标,第二行第一个(575, 996)
+        # pydirectinput.moveTo(575, 996)
         pydirectinput.click()
         time.sleep(0.5)
         pydirectinput.click()

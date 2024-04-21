@@ -21,7 +21,7 @@
       "level": "DEBUG",
       "formatter": "detailed",
       "filename": "D:\\GitHub\\calabiqiu-auto\\src\\logs\\logs.log",
-      "maxBytes": 100000,
+      "maxBytes": 1000000,
       "backupCount": 3
     }
   },
