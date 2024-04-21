@@ -46,6 +46,7 @@ start_image_paths = [
     'D:\\GitHub\\calabiqiu-auto\\src\\images\\start2.png'
 ]
 enter_image_paths = resource_path('images\\enter.png')
+chooseRole_image_paths = resource_path('images\\chooseRole.png')
 ao_image_paths = resource_path('images\\ao.png')
 lock_image_paths = [
     resource_path('images\\lock1.png'),
@@ -70,14 +71,14 @@ next_images_paths = [
 ]
 
 # 获取x和y坐标
-# def check_one_image_location(image_path):
-#     try:
-#         location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=0.8)
-#         if location:
-#             return location
-#     except pyautogui.ImageNotFoundException:
-#         pass
-#     return False
+def check_one_image_location(image_path):
+    try:
+        location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=0.8)
+        if location:
+            return location
+    except pyautogui.ImageNotFoundException:
+        pass
+    return False
 
 # 检查图像
 def check_one_image(image_path):
@@ -105,6 +106,22 @@ def loop(image_path):
         time.sleep(5)
 
 
+def loopAndClick(image_path,x,y):
+    loopCount = 0
+    while True:
+        loopCount += 1
+        found_pic = check_one_image(image_path)
+        if found_pic:
+            print("找到了")
+            break
+        if loopCount >= 50:
+            print("循环超过50次，跳出循环")
+            break
+        print(loopCount, ":没找到,等待五秒重新寻找...")
+        print(loopCount, ":尝试点击进入链接按钮")
+        pydirectinput.moveTo(x, y)
+        pydirectinput.click()
+        time.sleep(5)
 # 检查图像列表
 
 def check_images(image_list):
@@ -145,23 +162,22 @@ def main():
     while True:  # 无限循环
         # 自动点击开始按钮：开1，开2
         count += 1
+        logger.debug("==================================================")
         logger.debug("第%s次对战", count)
         logger.debug("###################################")
         logger.debug("自动点击开始按钮")
         time.sleep(3)
         loopList(start_image_paths)
         pydirectinput.moveTo(960, 980)
-        logging.debug(pyautogui.position())
         pydirectinput.click()
         logger.debug("自动点击开始按钮完毕")
         logger.debug("###################################")
 
-        # 自动点击进入链接：进  debugger
+        # 自动点击进入链接：进，需要考虑玩家未准备情况
         logger.debug("自动点击进入链接")
         time.sleep(3)
         loop(enter_image_paths)
         pydirectinput.moveTo(970, 920)
-        logging.debug(pyautogui.position())
         pydirectinput.click()
         time.sleep(0.5)
         pydirectinput.click()
@@ -170,20 +186,31 @@ def main():
         logger.debug("自动点击进入链接完毕")
         logger.debug("###################################")
 
+        # 自动识别选择角色界面，识别玩家未准备情况
+        logger.debug("自动识别选择角色界面")
+        time.sleep(3)
+        loopAndClick(chooseRole_image_paths, 970, 920)
+        logger.debug("自动识别选择角色界面")
+        logger.debug("###################################")
+
         # 自动选择奥黛丽：头像
         logger.debug("自动选择奥黛丽")
-        time.sleep(3)
+        # time.sleep(3)
         loop(ao_image_paths)
         # 每个人的奥黛丽顺序不同，这个坐标只能手动获取
         # 存在识别不到图像的bug，坐标回到手动配置
-        # location = check_one_image_location(ao_image_paths)
-        # if location:
-        #     pydirectinput.moveTo(location.x, location.y)
-        #     logging.debug("奥黛丽坐标为x=%s，y=%s", location.x, location.y)
-        # else:
-        #     pydirectinput.moveTo(575, 996)
+        try:
+            location = check_one_image_location(ao_image_paths)
+            if location:
+                pydirectinput.moveTo(location.x, location.y)
+                logging.debug("奥黛丽坐标为x=%s，y=%s", location.x, location.y)
+            else:
+                pydirectinput.moveTo(575, 996)
+        except pyautogui.ImageNotFoundException:
+            pydirectinput.moveTo(575, 996)
+
         # 东雪莲office，x=789，y=992
-        pydirectinput.moveTo(789, 992)
+        # pydirectinput.moveTo(789, 992)
         # vx 2 号的坐标,第二行第一个(575, 996)
         # pydirectinput.moveTo(575, 996)
         pydirectinput.click()
@@ -191,7 +218,7 @@ def main():
         pydirectinput.click()
         time.sleep(0.5)
         pydirectinput.click()
-        logger.debug("自动选择奥完毕")
+        logger.debug("自动选择奥黛丽完毕")
         logger.debug("###################################")
 
         # 自动选中锁定
@@ -286,7 +313,7 @@ def main():
         pydirectinput.click()
         logger.debug("退出完毕")
         logger.debug("###################################")
-
+        logger.debug("==================================================")
 
 if __name__ == "__main__":
     main()
