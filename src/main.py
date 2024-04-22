@@ -47,7 +47,7 @@ start_image_paths = [
 #     'D:\\GitHub\\calabiqiu-auto\\src\\images\\start2.png'
 # ]
 enter_image_paths = resource_path('images\\enter.png')
-chooseRole_image_paths = resource_path('images\\chooseRole.png')
+# chooseRole_image_paths = resource_path('images\\chooseRole.png')
 ao_image_paths = resource_path('images\\ao.png')
 lock_image_paths = [
     resource_path('images\\lock1.png'),
@@ -109,19 +109,25 @@ def loop(image_path):
         time.sleep(5)
 
 
-def loopAndClick(image_path, x, y):
+def loopAndClick(image_path, images_paths, x, y):
     loopCount = 0
     while True:
         loopCount += 1
+        # 查找开始
+        found_pic2 = check_images(images_paths)
+        if found_pic2:
+            print("等待超过10min，需要重新点击开始")
+            pydirectinput.moveTo(960, 980)
+            pydirectinput.click()
+        # 查找进入链接
         found_pic = check_one_image(image_path)
         if found_pic:
             print("找到了")
             break
-        if loopCount >= 50:
-            print("循环超过50次，跳出循环")
+        if loopCount >= 100:
+            print("循环超过100次，跳出循环")
             break
-        print(loopCount, ":没找到,等待五秒重新寻找...")
-        print(loopCount, ":尝试点击进入链接按钮")
+        print(loopCount, ":没找到,等待五秒重新寻找...尝试点击进入链接按钮")
         pydirectinput.moveTo(x, y)
         pydirectinput.click()
         time.sleep(5)
@@ -177,6 +183,8 @@ def main():
         logger.debug("自动点击开始按钮完毕")
         logger.debug("###################################")
 
+        # 判断是否进入，进入链接界面
+
         # 自动点击进入链接：进，需要考虑玩家未准备情况
         logger.debug("自动点击进入链接")
         time.sleep(3)
@@ -193,7 +201,7 @@ def main():
         # 自动识别选择角色界面，识别玩家未准备情况
         logger.debug("自动识别选择角色界面")
         time.sleep(3)
-        loopAndClick(chooseRole_image_paths, 970, 920)
+        loopAndClick(ao_image_paths, start_image_paths, 970, 920)
         logger.debug("自动识别选择角色界面")
         logger.debug("###################################")
 
@@ -262,19 +270,19 @@ def main():
         # 保持运动等待游戏结束
         logger.debug("保持运动等待游戏结束")
         pydirectinput.press('w')
-        pydirectinput.click(766, 970)
+        pydirectinput.click(800, 970)
         time.sleep(10)
         pydirectinput.press('d')
-        pydirectinput.click(766, 970)
+        pydirectinput.click(800, 970)
         time.sleep(10)
         pydirectinput.press('w')
-        pydirectinput.click(766, 970)
+        pydirectinput.click(800, 970)
         time.sleep(10)
         pydirectinput.press('d')
-        pydirectinput.click(766, 970)
+        pydirectinput.click(800, 970)
         time.sleep(10)
         pydirectinput.press('w')
-        pydirectinput.click(766, 970)
+        pydirectinput.click(800, 970)
         logger.debug("###################################")
 
         # 图像识别：下一步或者升级
@@ -288,10 +296,10 @@ def main():
         logger.debug("###################################")
         logger.debug("升级")
         time.sleep(3)
-        pydirectinput.moveTo(766, 970)
+        pydirectinput.moveTo(800, 970)
         pydirectinput.click()
         time.sleep(3)
-        pydirectinput.moveTo(766, 970)
+        pydirectinput.moveTo(800, 970)
         logging.debug(pyautogui.position())
         pydirectinput.click()
         logger.debug("升级, 完毕")
