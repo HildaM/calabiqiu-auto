@@ -36,7 +36,6 @@ pyautogui.FAILSAFE = False
 # 设置当前工作目录
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-
 # 图像导入，使用resource_path函数确保路径正确
 start_image_paths = [
     resource_path('images\\start1.png'),
@@ -68,7 +67,8 @@ image_paths = [
 next_images_paths = [
     resource_path('images\\next.png'),
     resource_path('images\\back1.png'),
-    resource_path('images\\back2.png')
+    resource_path('images\\back2.png'),
+    resource_path('images\\note.png')
 ]
 
 
@@ -131,6 +131,8 @@ def loopAndClick(image_path, images_paths, x, y):
         pydirectinput.moveTo(x, y)
         pydirectinput.click()
         time.sleep(5)
+
+
 # 检查图像列表
 
 
@@ -172,7 +174,12 @@ def main():
     while True:  # 无限循环
         # 自动点击开始按钮：开1，开2
         count += 1
-        logger.debug("==================================================")
+        logger.debug("   ____           _           _       _           _         ")
+        logger.debug("  / ___|   __ _  | |   __ _  | |__   (_)   __ _  (_)  _   _ ")
+        logger.debug(" | |      / _` | | |  / _` | | '_ \\  | |  / _` | | | | | | |")
+        logger.debug(" | |___  | (_| | | | | (_| | | |_) | | | | (_| | | | | |_| |")
+        logger.debug("  \\____|  \\__,_| |_|  \\__,_| |_.__/  |_|  \\__, | |_|  \\__,_|")
+        logger.debug("                                             |_|            ")
         logger.debug("第%s次对战", count)
         logger.debug("###################################")
         logger.debug("自动点击开始按钮")
@@ -285,25 +292,35 @@ def main():
         pydirectinput.click(800, 970)
         logger.debug("###################################")
 
-        # 图像识别：下一步或者升级
+        # 图像识别：下一步或者升级或者挂机警告提示
         logger.debug("图像识别：下一步或者升级检测")
         time.sleep(3)
         loopList(next_images_paths)
         logger.debug("图像识别完毕")
-        logger.debug("###################################")
 
         # 点击升级的返回按钮
         logger.debug("###################################")
         logger.debug("升级")
-        time.sleep(3)
+        time.sleep(1)
         pydirectinput.moveTo(800, 970)
         pydirectinput.click()
-        time.sleep(3)
+        time.sleep(1)
         pydirectinput.moveTo(800, 970)
         logging.debug(pyautogui.position())
         pydirectinput.click()
         logger.debug("升级, 完毕")
         logger.debug("###################################")
+        # 挂机检测
+        logger.debug("挂机检测")
+        time.sleep(1)
+        pydirectinput.moveTo(945, 678)
+        logging.debug(pyautogui.position())
+        pydirectinput.click()
+        time.sleep(1)
+        pydirectinput.moveTo(945, 678)
+        logging.debug(pyautogui.position())
+        pydirectinput.click()
+        logger.debug("挂机检测, 完毕")
         # 点击下一步，下一步，退出
         logger.debug("###################################")
         logger.debug("下一步")
