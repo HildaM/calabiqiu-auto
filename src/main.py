@@ -255,7 +255,7 @@ def main():
         logger.debug("已经睡了120s")
         time.sleep(60)
         logger.debug("已经睡了180s")
-        time.sleep(60)
+        time.sleep(30)
         logger.debug("结束210s睡眠")
         logger.debug("###################################")
 
