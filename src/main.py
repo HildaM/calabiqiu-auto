@@ -102,7 +102,7 @@ def loop(image_path, loop_times):
         time.sleep(5)
 
 # 找到开始点开始，找不到奥黛丽就一直点击进入链接位置
-def loopAndClick(image_path, images_paths, x, y):
+def loopAndClick(image_path, images_paths, loop_times, x, y):
     loopCount = 0
     while True:
         loopCount += 1
@@ -117,8 +117,8 @@ def loopAndClick(image_path, images_paths, x, y):
         if found_pic:
             print("找到了")
             break
-        if loopCount >= 100:
-            print("循环超过100次，跳出循环")
+        if loopCount >= loop_times:
+            print(f"循环超过{loop_times}次，跳出循环")
             break
         print(loopCount, ":没找到,等待五秒重新寻找...尝试点击进入链接按钮")
         pydirectinput.moveTo(x, y)
@@ -201,7 +201,7 @@ def main():
         # 自动识别选择角色界面，识别玩家未准备情况
         logger.debug("自动识别选择角色界面")
         time.sleep(3)
-        loopAndClick(ao_image_paths, start_image_paths, 970, 920)
+        loopAndClick(ao_image_paths, start_image_paths, 120, 970, 920)
         logger.debug("自动识别选择角色界面")
         logger.debug("###################################")
 
