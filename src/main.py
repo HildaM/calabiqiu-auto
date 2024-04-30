@@ -247,16 +247,15 @@ def main():
         logger.debug("自动选中锁定完毕")
         logger.debug("###################################")
 
-        # 对局没有哪么快结束，先睡3min30s=210s
-        logger.debug("对局没有哪么快结束，先睡210s")
+        # 对局没有哪么快结束，先睡3min=180s
+        logger.debug("对局没有哪么快结束，先睡180s")
         time.sleep(60)
         logger.debug("已经睡了60s")
         time.sleep(60)
         logger.debug("已经睡了120s")
         time.sleep(60)
         logger.debug("已经睡了180s")
-        time.sleep(30)
-        logger.debug("结束210s睡眠")
+        logger.debug("结束睡眠")
         logger.debug("###################################")
 
         # 图片路径
@@ -309,6 +308,16 @@ def main():
         logging.debug(pyautogui.position())
         pydirectinput.click()
         logger.debug("挂机检测, 完毕")
+        logger.debug("###################################")
+        # 新赛季惊奇战备礼盒
+        logger.debug("新赛季惊奇战备礼盒")
+        time.sleep(1)
+        pydirectinput.moveTo(970, 710)
+        pydirectinput.click()
+        time.sleep(1)
+        pydirectinput.moveTo(970, 710)
+        pydirectinput.click()
+        logger.debug("新赛季惊奇战备礼盒, 完毕")
         # 点击下一步，下一步，退出
         logger.debug("###################################")
         logger.debug("下一步")
