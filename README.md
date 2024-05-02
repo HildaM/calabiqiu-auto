@@ -2,6 +2,10 @@
 
 卡拉彼丘自动挂机脚本
 
+下载地址
+链接：https://pan.baidu.com/s/1CCaJMP2W0UD4yVI0aRuDBw?pwd=2233 
+提取码：2233
+
 使用方法
 1.下载：src\dist\calabiqiu-auto.exe
 2.桌面或者卡拉比丘窗口大小调整为1920 X 1080
