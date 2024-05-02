@@ -5,11 +5,15 @@ import os
 import logging
 import logging.config
 import json
-
+import sys
 
 # 获取资源的绝对路径，用于PyInstaller打包后资源的访问
 def resource_path(relative_path):
-    base_path = os.path.abspath(".")
+    # 是否Bundle Resource
+    if getattr(sys, ' frozen', False):
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)
 
 

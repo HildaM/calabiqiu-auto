@@ -5,11 +5,15 @@ import os
 import logging
 import logging.config
 import json
-
+import sys
 
 # 获取资源的绝对路径，用于PyInstaller打包后资源的访问
 def resource_path(relative_path):
-    base_path = os.path.abspath(".")
+    # 是否Bundle Resource
+    if getattr(sys, ' frozen', False):
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)
 
 
@@ -59,7 +63,12 @@ next_images_paths = [
     resource_path('images\\next.png'),
     resource_path('images\\back1.png'),
     resource_path('images\\back2.png'),
-    resource_path('images\\note.png')
+    resource_path('images\\note.png'),
+    resource_path('images\\close1.png'),
+    resource_path('images\\close2.png'),
+    resource_path('images\\close3.png'),
+    resource_path('images\\close4.png'),
+    resource_path('images\\box.png')
 ]
 
 
@@ -75,9 +84,9 @@ def check_one_image_location(image_path):
 
 
 # 检查图像
-def check_one_image(image_path):
+def check_one_image(image_path, confidence):
     try:
-        location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=0.8)
+        location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=confidence)
         if location:
             return True
     except pyautogui.ImageNotFoundException:
@@ -85,38 +94,38 @@ def check_one_image(image_path):
     return False
 
 
-def loop(image_path, loop_times):
+def loop(image_path, loop_times, confidence):
     loopCount = 0
     while True:
         loopCount += 1
-        found_pic = check_one_image(image_path)
+        found_pic = check_one_image(image_path, confidence)
         if found_pic:
             print("找到了")
             break
         if loopCount >= loop_times:
-            print("循环超过"+loop_times+"次，跳出循环")
+            print(f"循环超过{loop_times}次，跳出循环")
             break
         print(loopCount, ":没找到,等待五秒重新寻找...")
         time.sleep(5)
 
-
-def loopAndClick(image_path, images_paths, x, y):
+# 找到开始点开始，找不到奥黛丽就一直点击进入链接位置
+def loopAndClick(image_path, images_paths, loop_times, x, y):
     loopCount = 0
     while True:
         loopCount += 1
         # 查找开始
-        found_pic2 = check_images(images_paths)
+        found_pic2 = check_images(images_paths, 0.8)
         if found_pic2:
             print("等待超过10min，需要重新点击开始")
             pydirectinput.moveTo(960, 980)
             pydirectinput.click()
         # 查找进入链接
-        found_pic = check_one_image(image_path)
+        found_pic = check_one_image(image_path, 0.8)
         if found_pic:
             print("找到了")
             break
-        if loopCount >= 100:
-            print("循环超过100次，跳出循环")
+        if loopCount >= loop_times:
+            print(f"循环超过{loop_times}次，跳出循环")
             break
         print(loopCount, ":没找到,等待五秒重新寻找...尝试点击进入链接按钮")
         pydirectinput.moveTo(x, y)
@@ -127,10 +136,10 @@ def loopAndClick(image_path, images_paths, x, y):
 # 检查图像列表
 
 
-def check_images(image_list):
+def check_images(image_list, confidence):
     for image_path in image_list:
         try:
-            location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=0.8)
+            location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=confidence)
             if location:
                 return True
         except pyautogui.ImageNotFoundException:
@@ -138,65 +147,20 @@ def check_images(image_list):
         return False
 
 
-# 检查页面，然后进行操作，相同页面可能因为鼠标悬浮有不同的操作，也要考虑非必然页面的判断
-def loopAndClickNew(imageList, loopTimeSeconds, intervalTimeSeconds, x, y):
-    loopSecondsCount = 0
+def loopList(image_list, loop_times, confidence):
+    loopListCount = 0
     while True:
-        for imagePath in imageList:
-            try:
-                location = pyautogui.locateCenterOnScreen(imagePath, minSearchTime=5, confidence=0.8)
-                if location:
-                    pydirectinput.moveTo(location.x, location.y)
-                    print("坐标为x=%s，y=%s", location.x, location.y)
-                else:
-                    pydirectinput.moveTo(x, y)
-                    print("坐标为x=%s，y=%s", x, y)
-                pydirectinput.click()
-                break
-            except pyautogui.ImageNotFoundException:
-                pass
-        if loopSecondsCount <= loopTimeSeconds:
-            print("循环超过"+loopTimeSeconds+"秒，跳出循环")
+        loopListCount += 1
+        found_pic = check_images(image_list, confidence)
+        if found_pic:
+            print("找到了")
             break
-        print("当前已经耗时:"+loopTimeSeconds+"秒，"+intervalTimeSeconds+"秒后重找")
-        time.sleep(intervalTimeSeconds)
-        loopSecondsCount += intervalTimeSeconds
+        if loopListCount >= loop_times:
+            print(f"循环超过{loop_times}次，跳出循环")
+            break
+        print(loopListCount, ":没找到,等待五秒重新寻找...")
+        time.sleep(5)
 
-def branchSelection(imageList1, imageList2, loopTimeSeconds, intervalTimeSeconds, x1, y1, x2, y2):
-    loopSecondsCount = 0
-    while True:
-        for imagePath in imageList1:
-            try:
-                location = pyautogui.locateCenterOnScreen(imagePath, minSearchTime=5, confidence=0.8)
-                if location:
-                    pydirectinput.moveTo(location.x, location.y)
-                    print("坐标为x=%s，y=%s", location.x, location.y)
-                else:
-                    pydirectinput.moveTo(x1, y1)
-                    print("坐标为x=%s，y=%s", x1, y1)
-                pydirectinput.click()
-                break
-            except pyautogui.ImageNotFoundException:
-                pass
-        for imagePath2 in imageList2:
-            try:
-                location2 = pyautogui.locateCenterOnScreen(imagePath2, minSearchTime=5, confidence=0.8)
-                if location2:
-                    pydirectinput.moveTo(location2.x, location2.y)
-                    print("坐标为x=%s，y=%s", location2.x, location2.y)
-                else:
-                    pydirectinput.moveTo(x1, y1)
-                    print("坐标为x=%s，y=%s", x2, y2)
-                pydirectinput.click()
-                break
-            except pyautogui.ImageNotFoundException:
-                pass
-        if loopSecondsCount <= loopTimeSeconds:
-            print("循环超过"+loopTimeSeconds+"秒，跳出循环")
-            break
-        print("当前已经耗时:"+loopTimeSeconds+"秒，"+intervalTimeSeconds+"秒后重找")
-        time.sleep(intervalTimeSeconds)
-        loopSecondsCount += intervalTimeSeconds
 
 def main():
     setup_logging()
@@ -205,45 +169,53 @@ def main():
     # 启动脚本延时
     logger.debug('脚本启动中...')
     time.sleep(3)
-    cycleIndexCount = 0
+    logger.debug('启动完成')
+    count = 0
     while True:  # 无限循环
         # 自动点击开始按钮：开1，开2
+        count += 1
         logger.debug("   ____           _           _       _           _         ")
         logger.debug("  / ___|   __ _  | |   __ _  | |__   (_)   __ _  (_)  _   _ ")
         logger.debug(" | |      / _` | | |  / _` | | '_ \\  | |  / _` | | | | | | |")
         logger.debug(" | |___  | (_| | | | | (_| | | |_) | | | | (_| | | | | |_| |")
         logger.debug("  \\____|  \\__,_| |_|  \\__,_| |_.__/  |_|  \\__, | |_|  \\__,_|")
         logger.debug("                                             |_|            ")
-        cycleIndexCount += 1
-        logger.debug("第%s次对战", cycleIndexCount)
+        logger.debug("第%s次对战", count)
+        logger.debug("###################################")
         logger.debug("自动点击开始按钮")
         time.sleep(3)
-        loopAndClickNew(start_image_paths, 120, 5, 960, 980)
+        loopList(start_image_paths, 50, 0.8)
+        pydirectinput.moveTo(960, 980)
+        pydirectinput.click()
         logger.debug("自动点击开始按钮完毕")
+        logger.debug("###################################")
+
         # 判断是否进入，进入链接界面
 
         # 自动点击进入链接：进，需要考虑玩家未准备情况
         logger.debug("自动点击进入链接")
         time.sleep(3)
-        loopAndClickNew(enter_image_paths, 600, 5, 970, 920)
-        # 超过10min，需要手动点击开始
-        loopAndClickNew(start_image_paths, 120, 5, 960, 980)
+        loop(enter_image_paths, 120, 0.8)
+        pydirectinput.moveTo(970, 920)
+        pydirectinput.click()
+        time.sleep(0.5)
+        pydirectinput.click()
+        time.sleep(0.5)
+        pydirectinput.click()
         logger.debug("自动点击进入链接完毕")
+        logger.debug("###################################")
 
-        # 识别玩家未准备情况
-
-
-        # 自动识别选择角色界面
+        # 自动识别选择角色界面，识别玩家未准备情况
         logger.debug("自动识别选择角色界面")
         time.sleep(3)
-        branchSelection(ao_image_paths, start_image_paths,120, 5,970, 920,960, 980)
+        loopAndClick(ao_image_paths, start_image_paths, 120, 970, 920)
         logger.debug("自动识别选择角色界面")
         logger.debug("###################################")
 
         # 自动选择奥黛丽：头像
         logger.debug("自动选择奥黛丽")
         # time.sleep(3)
-        loop(ao_image_paths, 50)
+        loop(ao_image_paths, 50, 0.8)
         # 每个人的奥黛丽顺序不同，这个坐标只能手动获取
         # 存在识别不到图像的bug，坐标回到手动配置
         try:
@@ -271,7 +243,7 @@ def main():
         # 自动选中锁定
         logger.debug("自动选中锁定")
         time.sleep(3)
-        loopList(lock_image_paths, 50)
+        loopList(lock_image_paths, 50, 0.8)
         pydirectinput.moveTo(918, 779)
         logging.debug(pyautogui.position())
         pydirectinput.click()
@@ -282,16 +254,15 @@ def main():
         logger.debug("自动选中锁定完毕")
         logger.debug("###################################")
 
-        # 对局没有哪么快结束，先睡3min30s=210s
-        logger.debug("对局没有哪么快结束，先睡210s")
+        # 对局没有哪么快结束，先睡3min=180s
+        logger.debug("对局没有哪么快结束，先睡180s")
         time.sleep(60)
         logger.debug("已经睡了60s")
         time.sleep(60)
         logger.debug("已经睡了120s")
         time.sleep(60)
         logger.debug("已经睡了180s")
-        time.sleep(30)
-        logger.debug("结束210s睡眠")
+        logger.debug("结束睡眠")
         logger.debug("###################################")
 
         # 图片路径
@@ -299,7 +270,7 @@ def main():
         # 图像识别上方比分，当到达45时候，移动人物
         # 循环搜索
         logger.debug("图像识别上方比分45-50")
-        loopList(image_paths, 50)
+        loopList(image_paths, 50, 0.95)
         logger.debug("图像识别上方比分完毕")
         logger.debug("###################################")
         # 保持运动等待游戏结束
@@ -323,18 +294,28 @@ def main():
         # 图像识别：下一步或者升级或者挂机警告提示
         logger.debug("图像识别：下一步或者升级检测")
         time.sleep(3)
-        loopList(next_images_paths, 50)
+        loopList(next_images_paths, 50, 0.6)
         logger.debug("图像识别完毕")
+        logger.debug("###################################")
 
-        # 点击升级的返回按钮
+        # 新赛季惊奇战备礼盒
+        logger.debug("新赛季惊奇战备礼盒")
+        time.sleep(1)
+        pydirectinput.moveTo(970, 710)
+        pydirectinput.click()
+        time.sleep(1)
+        pydirectinput.moveTo(970, 710)
+        pydirectinput.click()
+        logger.debug("新赛季惊奇战备礼盒, 完毕")
+
+        # 点击升级的返回按钮,三十级以前，三十级以后不一样
         logger.debug("###################################")
         logger.debug("升级")
         time.sleep(1)
         pydirectinput.moveTo(800, 970)
         pydirectinput.click()
         time.sleep(1)
-        pydirectinput.moveTo(800, 970)
-        logging.debug(pyautogui.position())
+        pydirectinput.moveTo(960, 970)
         pydirectinput.click()
         logger.debug("升级, 完毕")
         logger.debug("###################################")
@@ -344,29 +325,35 @@ def main():
         pydirectinput.moveTo(945, 678)
         logging.debug(pyautogui.position())
         pydirectinput.click()
-        time.sleep(1)
-        pydirectinput.moveTo(945, 678)
-        logging.debug(pyautogui.position())
-        pydirectinput.click()
         logger.debug("挂机检测, 完毕")
+        logger.debug("###################################")
+        # 新赛季惊奇战备礼盒
+        logger.debug("新赛季惊奇战备礼盒")
+        time.sleep(1)
+        pydirectinput.moveTo(970, 710)
+        pydirectinput.click()
+        time.sleep(1)
+        pydirectinput.moveTo(970, 710)
+        pydirectinput.click()
+        logger.debug("新赛季惊奇战备礼盒, 完毕")
         # 点击下一步，下一步，退出
         logger.debug("###################################")
         logger.debug("下一步")
-        time.sleep(3)
-        pydirectinput.moveTo(1628, 949)
+        time.sleep(1)
+        pydirectinput.moveTo(1588, 1000)
         logging.debug(pyautogui.position())
         pydirectinput.click()
         time.sleep(3)
-        pydirectinput.moveTo(1628, 949)
+        pydirectinput.moveTo(1588, 1000)
         pydirectinput.click()
         time.sleep(3)
-        pydirectinput.moveTo(1628, 949)
+        pydirectinput.moveTo(1588, 1000)
         pydirectinput.click()
         time.sleep(3)
-        pydirectinput.moveTo(1628, 949)
+        pydirectinput.moveTo(1588, 1000)
         pydirectinput.click()
         time.sleep(3)
-        pydirectinput.moveTo(1628, 949)
+        pydirectinput.moveTo(1588, 1000)
         pydirectinput.click()
         logger.debug("退出完毕")
         logger.debug("###################################")
