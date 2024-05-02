@@ -61,7 +61,10 @@ next_images_paths = [
     resource_path('images\\back2.png'),
     resource_path('images\\note.png'),
     resource_path('images\\close1.png'),
-    resource_path('images\\close2.png')
+    resource_path('images\\close2.png'),
+    resource_path('images\\close3.png'),
+    resource_path('images\\close4.png'),
+    resource_path('images\\box.png')
 ]
 
 
@@ -77,9 +80,9 @@ def check_one_image_location(image_path):
 
 
 # 检查图像
-def check_one_image(image_path):
+def check_one_image(image_path, confidence):
     try:
-        location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=0.8)
+        location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=confidence)
         if location:
             return True
     except pyautogui.ImageNotFoundException:
@@ -87,11 +90,11 @@ def check_one_image(image_path):
     return False
 
 
-def loop(image_path, loop_times):
+def loop(image_path, loop_times, confidence):
     loopCount = 0
     while True:
         loopCount += 1
-        found_pic = check_one_image(image_path)
+        found_pic = check_one_image(image_path, confidence)
         if found_pic:
             print("找到了")
             break
@@ -107,13 +110,13 @@ def loopAndClick(image_path, images_paths, loop_times, x, y):
     while True:
         loopCount += 1
         # 查找开始
-        found_pic2 = check_images(images_paths)
+        found_pic2 = check_images(images_paths, 0.8)
         if found_pic2:
             print("等待超过10min，需要重新点击开始")
             pydirectinput.moveTo(960, 980)
             pydirectinput.click()
         # 查找进入链接
-        found_pic = check_one_image(image_path)
+        found_pic = check_one_image(image_path, 0.8)
         if found_pic:
             print("找到了")
             break
@@ -129,10 +132,10 @@ def loopAndClick(image_path, images_paths, loop_times, x, y):
 # 检查图像列表
 
 
-def check_images(image_list):
+def check_images(image_list, confidence):
     for image_path in image_list:
         try:
-            location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=0.8)
+            location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=confidence)
             if location:
                 return True
         except pyautogui.ImageNotFoundException:
@@ -140,11 +143,11 @@ def check_images(image_list):
         return False
 
 
-def loopList(image_list, loop_times):
+def loopList(image_list, loop_times, confidence):
     loopListCount = 0
     while True:
         loopListCount += 1
-        found_pic = check_images(image_list)
+        found_pic = check_images(image_list, confidence)
         if found_pic:
             print("找到了")
             break
@@ -177,7 +180,7 @@ def main():
         logger.debug("###################################")
         logger.debug("自动点击开始按钮")
         time.sleep(3)
-        loopList(start_image_paths, 50)
+        loopList(start_image_paths, 50, 0.8)
         pydirectinput.moveTo(960, 980)
         pydirectinput.click()
         logger.debug("自动点击开始按钮完毕")
@@ -188,7 +191,7 @@ def main():
         # 自动点击进入链接：进，需要考虑玩家未准备情况
         logger.debug("自动点击进入链接")
         time.sleep(3)
-        loop(enter_image_paths, 120)
+        loop(enter_image_paths, 120, 0.8)
         pydirectinput.moveTo(970, 920)
         pydirectinput.click()
         time.sleep(0.5)
@@ -208,7 +211,7 @@ def main():
         # 自动选择奥黛丽：头像
         logger.debug("自动选择奥黛丽")
         # time.sleep(3)
-        loop(ao_image_paths, 50)
+        loop(ao_image_paths, 50, 0.8)
         # 每个人的奥黛丽顺序不同，这个坐标只能手动获取
         # 存在识别不到图像的bug，坐标回到手动配置
         try:
@@ -236,7 +239,7 @@ def main():
         # 自动选中锁定
         logger.debug("自动选中锁定")
         time.sleep(3)
-        loopList(lock_image_paths, 50)
+        loopList(lock_image_paths, 50, 0.8)
         pydirectinput.moveTo(918, 779)
         logging.debug(pyautogui.position())
         pydirectinput.click()
@@ -263,7 +266,7 @@ def main():
         # 图像识别上方比分，当到达45时候，移动人物
         # 循环搜索
         logger.debug("图像识别上方比分45-50")
-        loopList(image_paths, 50)
+        loopList(image_paths, 50, 0.95)
         logger.debug("图像识别上方比分完毕")
         logger.debug("###################################")
         # 保持运动等待游戏结束
@@ -287,8 +290,19 @@ def main():
         # 图像识别：下一步或者升级或者挂机警告提示
         logger.debug("图像识别：下一步或者升级检测")
         time.sleep(3)
-        loopList(next_images_paths, 50)
+        loopList(next_images_paths, 50, 0.6)
         logger.debug("图像识别完毕")
+        logger.debug("###################################")
+
+        # 新赛季惊奇战备礼盒
+        logger.debug("新赛季惊奇战备礼盒")
+        time.sleep(1)
+        pydirectinput.moveTo(970, 710)
+        pydirectinput.click()
+        time.sleep(1)
+        pydirectinput.moveTo(970, 710)
+        pydirectinput.click()
+        logger.debug("新赛季惊奇战备礼盒, 完毕")
 
         # 点击升级的返回按钮,三十级以前，三十级以后不一样
         logger.debug("###################################")
@@ -321,7 +335,7 @@ def main():
         # 点击下一步，下一步，退出
         logger.debug("###################################")
         logger.debug("下一步")
-        time.sleep(3)
+        time.sleep(1)
         pydirectinput.moveTo(1588, 1000)
         logging.debug(pyautogui.position())
         pydirectinput.click()
