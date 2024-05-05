@@ -31,5 +31,6 @@
 代码实现
 main.py
 
-
+打包语句
+pyinstaller --add-data 'images:images' --onefile testMain.py
 

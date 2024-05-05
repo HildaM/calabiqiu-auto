@@ -147,7 +147,7 @@ def check_images(image_list, confidence):
         return False
 
 
-def loopList(image_list, loop_times, confidence):
+def loopList(image_list, loop_times, confidence, sleepTime):
     loopListCount = 0
     while True:
         loopListCount += 1
@@ -159,8 +159,24 @@ def loopList(image_list, loop_times, confidence):
             print(f"循环超过{loop_times}次，跳出循环")
             break
         print(loopListCount, ":没找到,等待五秒重新寻找...")
-        time.sleep(5)
+        time.sleep(sleepTime)
 
+
+def loopListAndMove(image_list, loop_times, confidence, sleepTime):
+    loopListCount = 0
+    while True:
+        pydirectinput.press('w')
+        pydirectinput.click(800, 970)
+        loopListCount += 1
+        found_pic = check_images(image_list, confidence)
+        if found_pic:
+            print("找到了")
+            break
+        if loopListCount >= loop_times:
+            print(f"循环超过{loop_times}次，跳出循环")
+            break
+        print(loopListCount, ":没找到,等待五秒重新寻找...")
+        time.sleep(sleepTime)
 
 def main():
     setup_logging()
@@ -168,7 +184,6 @@ def main():
     # 运行主循环
     # 启动脚本延时
     logger.debug('脚本启动中...')
-    time.sleep(3)
     logger.debug('启动完成')
     count = 0
     while True:  # 无限循环
@@ -184,7 +199,7 @@ def main():
         logger.debug("###################################")
         logger.debug("自动点击开始按钮")
         time.sleep(3)
-        loopList(start_image_paths, 50, 0.8)
+        loopList(start_image_paths, 50, 0.8, 5)
         pydirectinput.moveTo(960, 980)
         pydirectinput.click()
         logger.debug("自动点击开始按钮完毕")
@@ -243,7 +258,7 @@ def main():
         # 自动选中锁定
         logger.debug("自动选中锁定")
         time.sleep(3)
-        loopList(lock_image_paths, 50, 0.8)
+        loopList(lock_image_paths, 50, 0.8, 5)
         pydirectinput.moveTo(918, 779)
         logging.debug(pyautogui.position())
         pydirectinput.click()
@@ -270,44 +285,19 @@ def main():
         # 图像识别上方比分，当到达45时候，移动人物
         # 循环搜索
         logger.debug("图像识别上方比分45-50")
-        loopList(image_paths, 50, 0.95)
+        loopList(image_paths, 50, 0.95, 2)
+        time.sleep(10)
         logger.debug("图像识别上方比分完毕")
         logger.debug("###################################")
+
         # 保持运动等待游戏结束
-        logger.debug("保持运动等待游戏结束")
-        pydirectinput.press('w')
-        pydirectinput.click(800, 970)
-        time.sleep(10)
-        pydirectinput.press('d')
-        pydirectinput.click(800, 970)
-        time.sleep(10)
-        pydirectinput.press('w')
-        pydirectinput.click(800, 970)
-        time.sleep(10)
-        pydirectinput.press('d')
-        pydirectinput.click(800, 970)
-        time.sleep(10)
-        pydirectinput.press('w')
-        pydirectinput.click(800, 970)
-        logger.debug("###################################")
-
         # 图像识别：下一步或者升级或者挂机警告提示
-        logger.debug("图像识别：下一步或者升级检测")
+        logger.debug("保持运动 + 返回大厅")
         time.sleep(3)
-        loopList(next_images_paths, 50, 0.6)
-        logger.debug("图像识别完毕")
+        loopListAndMove(next_images_paths, 50, 0.6, 5)
+        time.sleep(10)
+        logger.debug("保持运动 + 返回大厅完毕")
         logger.debug("###################################")
-
-        # 新赛季惊奇战备礼盒
-        logger.debug("新赛季惊奇战备礼盒")
-        time.sleep(1)
-        pydirectinput.moveTo(970, 710)
-        pydirectinput.click()
-        time.sleep(1)
-        pydirectinput.moveTo(970, 710)
-        pydirectinput.click()
-        logger.debug("新赛季惊奇战备礼盒, 完毕")
-
         # 点击升级的返回按钮,三十级以前，三十级以后不一样
         logger.debug("###################################")
         logger.debug("升级")

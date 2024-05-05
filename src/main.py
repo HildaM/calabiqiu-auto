@@ -161,7 +161,6 @@ def loopList(image_list, loop_times, confidence):
         print(loopListCount, ":没找到,等待五秒重新寻找...")
         time.sleep(5)
 
-
 def main():
     setup_logging()
     logger = logging.getLogger("root")
