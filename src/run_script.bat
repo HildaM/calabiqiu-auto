@@ -1,4 +1,4 @@
 @echo off
-python -i main.py
+python -i testClick.py
 pause
 pause
