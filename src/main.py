@@ -269,7 +269,7 @@ def main():
         # 图像识别上方比分，当到达45时候，移动人物
         # 循环搜索
         logger.debug("图像识别上方比分45-50")
-        loopList(image_paths, 50, 0.95)
+        loopList(image_paths, 50, 0.85)
         logger.debug("图像识别上方比分完毕")
         logger.debug("###################################")
         # 保持运动等待游戏结束

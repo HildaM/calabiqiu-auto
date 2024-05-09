@@ -3,11 +3,11 @@
 卡拉彼丘自动挂机脚本
 
 下载地址
-链接：https://pan.baidu.com/s/1CCaJMP2W0UD4yVI0aRuDBw?pwd=2233 
+链接：https://pan.baidu.com/s/1lS4xHiENLzvmsLmrcNFKzQ?pwd=2233 
 提取码：2233
 
 使用方法
-1.下载：src\dist\calabiqiu-auto.exe
+1.下载：calabiqiu-auto.exe
 2.桌面或者卡拉比丘窗口大小调整为1920 X 1080
 3.游戏打开至无限团竞界面，不要点击开始
 4.右键calabiqiu-auto.exe文件，选择属性，选择兼容性，选择更改所有用户的设置，勾选以管理员身份运行此程序，并应用确定
@@ -32,5 +32,5 @@
 main.py
 
 打包语句
-pyinstaller --add-data 'images:images' --onefile testMain.py
+pyinstaller --add-data 'images:images' --onefile main.py
 
