@@ -1,4 +1,4 @@
-# calabiqiu-auto
+# calabiqiu-auto 1.1版本
 
 卡拉彼丘自动挂机脚本
 
