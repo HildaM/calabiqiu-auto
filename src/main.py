@@ -67,8 +67,8 @@ next_images_paths = [
     resource_path('images\\close1.png'),
     resource_path('images\\close2.png'),
     resource_path('images\\close3.png'),
-    resource_path('images\\close4.png'),
-    resource_path('images\\box.png')
+    resource_path('images\\close4.png')
+    # resource_path('images\\box.png')
 ]
 
 
@@ -275,7 +275,7 @@ def main():
         # 保持运动等待游戏结束
         logger.debug("保持运动等待游戏结束")
         pydirectinput.press('w')
-        pydirectinput.click(800, 970)
+        pydirectinput.click(800, 970)   # 升级返回键
         time.sleep(10)
         pydirectinput.press('d')
         pydirectinput.click(800, 970)
@@ -297,48 +297,46 @@ def main():
         logger.debug("图像识别完毕")
         logger.debug("###################################")
 
-        # 新赛季惊奇战备礼盒
-        logger.debug("新赛季惊奇战备礼盒")
-        time.sleep(1)
-        pydirectinput.moveTo(970, 710)
-        pydirectinput.click()
-        time.sleep(1)
-        pydirectinput.moveTo(970, 710)
-        pydirectinput.click()
-        logger.debug("新赛季惊奇战备礼盒, 完毕")
+        # # 新赛季惊奇战备礼盒
+        # logger.debug("新赛季惊奇战备礼盒")
+        # time.sleep(3)
+        # pydirectinput.moveTo(970, 710)
+        # pydirectinput.click()
+        # time.sleep(3)
+        # pydirectinput.moveTo(970, 710)
+        # pydirectinput.click()
+        # logger.debug("新赛季惊奇战备礼盒, 完毕")
 
         # 点击升级的返回按钮,三十级以前，三十级以后不一样
         logger.debug("###################################")
         logger.debug("升级")
-        time.sleep(1)
+        time.sleep(3)
         pydirectinput.moveTo(800, 970)
         pydirectinput.click()
-        time.sleep(1)
+        time.sleep(3)
+        pydirectinput.moveTo(960, 970)
+        pydirectinput.click()
+        time.sleep(3)
+        pydirectinput.moveTo(800, 970)
+        pydirectinput.click()
+        time.sleep(3)
         pydirectinput.moveTo(960, 970)
         pydirectinput.click()
         logger.debug("升级, 完毕")
         logger.debug("###################################")
         # 挂机检测
         logger.debug("挂机检测")
-        time.sleep(1)
+        time.sleep(3)
         pydirectinput.moveTo(945, 678)
         logging.debug(pyautogui.position())
         pydirectinput.click()
         logger.debug("挂机检测, 完毕")
         logger.debug("###################################")
-        # 新赛季惊奇战备礼盒
-        logger.debug("新赛季惊奇战备礼盒")
-        time.sleep(1)
-        pydirectinput.moveTo(970, 710)
-        pydirectinput.click()
-        time.sleep(1)
-        pydirectinput.moveTo(970, 710)
-        pydirectinput.click()
-        logger.debug("新赛季惊奇战备礼盒, 完毕")
+
         # 点击下一步，下一步，退出
         logger.debug("###################################")
         logger.debug("下一步")
-        time.sleep(1)
+        time.sleep(3)
         pydirectinput.moveTo(1588, 1000)
         logging.debug(pyautogui.position())
         pydirectinput.click()
