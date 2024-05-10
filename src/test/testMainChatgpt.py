@@ -6,7 +6,7 @@ import pyautogui
 import pydirectinput
 
 # Constants
-BASE_PATH = os.path.abspath(".")
+BASE_PATH = os.path.abspath("..")
 FAILSAFE = False
 MIN_SEARCH_TIME = 5
 CONFIDENCE_LEVEL = 0.8
@@ -22,7 +22,7 @@ def resource_path(relative_path):
 
 def setup_logging():
     """Set up logging configuration from a specified path."""
-    default_path = resource_path('logging_configs\\config.json')
+    default_path = resource_path('../logging_configs/config.json')
     if os.path.exists(default_path):
         with open(default_path, 'rt') as f:
             config = json.load(f)
@@ -77,18 +77,18 @@ def main():
         logger.debug(f"Round {count} begins.")
 
         # Auto-click start button
-        if not click_image(resource_path('images\\start1.png')):
+        if not click_image(resource_path('../images/start1.png')):
             logger.debug("Start1 image not found, checking for Start2.")
-            click_image(resource_path('images\\start2.png'))
+            click_image(resource_path('../images/start2.png'))
 
         # Auto-click to enter the link, considering the player may not be ready
-        loop_until_found(resource_path('images\\enter.png'), max_attempts=120)
+        loop_until_found(resource_path('../images/enter.png'), max_attempts=120)
         pydirectinput.moveTo(970, 920)
         pydirectinput.click()
 
         # Automatically identify the select role screen and handle unprepared player situations
-        loop_until_found(resource_path('images\\ao.png'), max_attempts=50)
-        location = locate_image(resource_path('images\\ao.png'))
+        loop_until_found(resource_path('../images/ao.png'), max_attempts=50)
+        location = locate_image(resource_path('../images/ao.png'))
         if location:
             pydirectinput.moveTo(location.x, location.y)
             logger.debug(f"Audrey selected at x={location.x}, y={location.y}")
@@ -98,7 +98,7 @@ def main():
         pydirectinput.click()
 
         # Auto-lock in the selected character
-        loop_until_found(resource_path('images\\lock1.png'), max_attempts=50)
+        loop_until_found(resource_path('../images/lock1.png'), max_attempts=50)
         pydirectinput.moveTo(918, 779)
         pydirectinput.click()
 
@@ -108,7 +108,7 @@ def main():
         logger.debug("Match ended.")
 
         # Image recognition for score and game events
-        loop_until_found(resource_path('images\\r-45.png'), max_attempts=50)
+        loop_until_found(resource_path('../images/r-45.png'), max_attempts=50)
         # Simulate movement to wait for game end
         pydirectinput.press('w')
         time.sleep(10)
@@ -116,7 +116,7 @@ def main():
         time.sleep(10)
 
         # Handle game ending
-        loop_until_found(resource_path('images\\next.png'), max_attempts=50)
+        loop_until_found(resource_path('../images/next.png'), max_attempts=50)
         pydirectinput.moveTo(1628, 949)
         pydirectinput.click()
 

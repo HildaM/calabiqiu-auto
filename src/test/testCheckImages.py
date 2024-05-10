@@ -34,11 +34,11 @@ def resource_path(relative_path):
         # 如果程序被打包成了单个文件
         base_path = sys._MEIPASS
     else:
-        base_path = os.path.abspath(".")
+        base_path = os.path.abspath("..")
     return os.path.join(base_path, relative_path)
 
 # test_image_paths = "D:\\GitHub\\calabiqiu-auto\\src\\images\\test.png"
-test_image_paths = resource_path('images\\test.png')
+test_image_paths = resource_path('../images/test.png')
 print(test_image_paths)
 
 def main_loop():

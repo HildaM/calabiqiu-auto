@@ -13,12 +13,12 @@ def resource_path(relative_path):
     if getattr(sys, ' frozen', False):
         base_path = sys._MEIPASS
     else:
-        base_path = os.path.abspath(".")
+        base_path = os.path.abspath("..")
     return os.path.join(base_path, relative_path)
 
 
 # 日志文件
-def setup_logging(default_path=resource_path('logging_configs\\config.json')):
+def setup_logging(default_path=resource_path('../logging_configs/config.json')):
     """Setup logging configuration"""
     if os.path.exists(default_path):
         with open(default_path, 'rt') as f:
@@ -37,38 +37,38 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 # 图像导入，使用resource_path函数确保路径正确
 start_image_paths = [
-    resource_path('images\\start1.png'),
-    resource_path('images\\start2.png')
+    resource_path('../images/start1.png'),
+    resource_path('../images/start2.png')
 ]
-enter_image_paths = resource_path('images\\enter.png')
+enter_image_paths = resource_path('../images/enter.png')
 # chooseRole_image_paths = resource_path('images\\chooseRole.png')
-ao_image_paths = resource_path('images\\ao.png')
+ao_image_paths = resource_path('../images/ao.png')
 lock_image_paths = [
-    resource_path('images\\lock1.png'),
-    resource_path('images\\lock2.png')
+    resource_path('../images/lock1.png'),
+    resource_path('../images/lock2.png')
 ]
 image_paths = [
-    resource_path('images\\r-45.png'),
-    resource_path('images\\r-46.png'),
-    resource_path('images\\r-47.png'),
-    resource_path('images\\r-48.png'),
-    resource_path('images\\r-49.png'),
-    resource_path('images\\b-45.png'),
-    resource_path('images\\b-46.png'),
-    resource_path('images\\b-47.png'),
-    resource_path('images\\b-48.png'),
-    resource_path('images\\b-49.png'),
+    resource_path('../images/r-45.png'),
+    resource_path('../images/r-46.png'),
+    resource_path('../images/r-47.png'),
+    resource_path('../images/r-48.png'),
+    resource_path('../images/r-49.png'),
+    resource_path('../images/b-45.png'),
+    resource_path('../images/b-46.png'),
+    resource_path('../images/b-47.png'),
+    resource_path('../images/b-48.png'),
+    resource_path('../images/b-49.png'),
 ]
 next_images_paths = [
-    resource_path('images\\next.png'),
-    resource_path('images\\back1.png'),
-    resource_path('images\\back2.png'),
-    resource_path('images\\note.png'),
-    resource_path('images\\close1.png'),
-    resource_path('images\\close2.png'),
-    resource_path('images\\close3.png'),
-    resource_path('images\\close4.png'),
-    resource_path('images\\box.png')
+    resource_path('../images/next.png'),
+    resource_path('../images/back1.png'),
+    resource_path('../images/back2.png'),
+    resource_path('../images/note.png'),
+    resource_path('../images/close1.png'),
+    resource_path('../images/close2.png'),
+    resource_path('../images/close3.png'),
+    resource_path('../images/close4.png'),
+    resource_path('../images/box.png')
 ]
 
 
