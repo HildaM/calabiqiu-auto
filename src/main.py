@@ -301,7 +301,7 @@ def main():
         # 点击升级的返回按钮,三十级以前，三十级以后不一样
         logger.debug("###################################")
         logger.debug("升级")
-        time.sleep(3)
+        time.sleep(15)
         pydirectinput.moveTo(800, 970)
         pydirectinput.click()
         time.sleep(0.5)
