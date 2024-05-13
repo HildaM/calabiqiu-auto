@@ -117,6 +117,9 @@ def loopAndClick(image_path, images_paths, loop_times, x, y):
         found_pic2 = check_images(images_paths, 0.8)
         if found_pic2:
             print("等待超过10min，需要重新点击开始")
+            print("有玩家无法连接至服务器，对局终止")
+            pydirectinput.moveTo(963, 695)
+            pydirectinput.click()
             pydirectinput.moveTo(960, 980)
             pydirectinput.click()
         # 查找进入链接
@@ -227,10 +230,6 @@ def main():
         except pyautogui.ImageNotFoundException:
             pydirectinput.moveTo(575, 996)
 
-        # 东雪莲office，x=789，y=992
-        # pydirectinput.moveTo(789, 992)
-        # vx 2 号的坐标,第二行第一个(575, 996)
-        # pydirectinput.moveTo(575, 996)
         pydirectinput.click()
         time.sleep(0.5)
         pydirectinput.click()
