@@ -6,6 +6,11 @@
 链接：https://pan.baidu.com/s/1lS4xHiENLzvmsLmrcNFKzQ?pwd=2233 
 提取码：2233
 
+卡拉比丘75次技能使用脚本 —— pressQMultipleTimes.exe
+手动进入团队乱斗，手动锁定奥黛丽，打开脚本，会自动按300次Q，然后可以挂机等结束
+下载链接：https://pan.baidu.com/s/1N2_V-t67oRiycZOq4ufJBw?pwd=2233 
+提取码：2233
+
 使用方法
 1.下载：calabiqiu-auto.exe
 2.桌面或者卡拉比丘窗口大小调整为1920 X 1080
@@ -42,4 +47,4 @@ main.py
 打包语句
 cd src
 pyinstaller --add-data 'images:images' --onefile main.py
-
+pyinstaller --onefile pressQMultipleTimes.py

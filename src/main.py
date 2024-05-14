@@ -111,15 +111,21 @@ def loop(image_path, loop_times, confidence):
 # 找到开始点开始，找不到奥黛丽就一直点击进入链接位置
 def loopAndClick(image_path, images_paths, loop_times, x, y):
     loopCount = 0
+    print("有玩家无法连接至服务器，对局终止")
+    pydirectinput.moveTo(963, 695)
+    pydirectinput.click()
+    time.sleep(1)
+    pydirectinput.moveTo(963, 695)
+    pydirectinput.click()
+    time.sleep(1)
+    pydirectinput.moveTo(963, 695)
+    pydirectinput.click()
     while True:
         loopCount += 1
         # 查找开始
         found_pic2 = check_images(images_paths, 0.8)
         if found_pic2:
             print("等待超过10min，需要重新点击开始")
-            print("有玩家无法连接至服务器，对局终止")
-            pydirectinput.moveTo(963, 695)
-            pydirectinput.click()
             pydirectinput.moveTo(960, 980)
             pydirectinput.click()
         # 查找进入链接
