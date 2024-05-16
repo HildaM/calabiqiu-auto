@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/src/logs/logs.log" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/logs/logs.log.1" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/logs/logs.log.2" charset="GBK" />
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/src/logs/logs.log" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/logs/logs.log.1" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/logs/logs.log.2" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>
