@@ -5,6 +5,7 @@ import pyautogui
 import os
 import sys
 
+
 class Logger(object):
     def __init__(self, filename="Default.log"):
         self.terminal = sys.stdout
@@ -82,30 +83,42 @@ leave_image_paths = [
 ensure_image_paths = [
     resource_path('images\\ensure1.png')
 ]
-exception_image_lists = [
-    {"code": 1, "image_paths": back_image_paths,
-     "description": "对局结束:30级以前的升级检测，需要点击返回",
-     "x1": 800, "y1": 970, "clickStep": 1},
-    {"code": 2, "image_paths": close_image_paths,
-     "description": "对局结束:30级之后的升级检测，需要点击关闭",
-     "x1": 960, "y1": 970, "clickStep": 1},
-    {"code": 3, "image_paths": ensure_image_paths,
-     "description": "对局开始:有玩家无法连接至服务器，对局终止，需要点击确定后,点击开始,并点击进入链接 "
-                    "|| 挂机检测,需要点击确认 ",
-     "x1": 963, "y1": 695, "x2": 960, "y2": 980, "x3": 970, "y3": 920, "x4": 945, "y4": 676,  "clickStep": 4},
-    {"code": 4, "image_paths": enter_image_paths,
-     "description": "对局开始:玩家未准备，需要重新点击进入链接",
+
+
+exception_game_start_image_lists = [
+    {"code": 2, "image_paths": start_image_paths,
+        "description": "对局开始:等待超过10min，开始",
+        "x1": 960, "y1": 980, "clickStep": 1},
+]
+exception_game_enter_image_lists = [
+    {"code": 1, "image_paths": enter_image_paths,
+     "description": "对局开始:玩家未准备，进入链接",
      "x1": 970, "y1": 920, "clickStep": 1},
-    {"code": 5, "image_paths": start_image_paths,
-     "description": "对局开始:等待超过10min，需要重新点击开始,重新点击进入链接",
-     "x1": 960, "y1": 980, "x2": 970, "y2": 920, "clickStep": 2}
+    {"code": 3, "image_paths": ensure_image_paths,
+     "description": "对局开始:有玩家无法连接至服务器，对局终止，确定",
+     "x1": 963, "y1": 695, "clickStep": 1},
+    {"code": 2, "image_paths": start_image_paths,
+     "description": "对局开始:有玩家无法连接至服务器，对局终止，开始",
+     "x1": 960, "y1": 980, "clickStep": 1},
+]
+exception_game_over_image_paths = [
+    {"code": 1, "image_paths": back_image_paths,
+        "description": "对局结束:30级以前的升级检测，返回",
+        "x1": 800, "y1": 970, "clickStep": 1},
+    {"code": 2, "image_paths": close_image_paths,
+        "description": "对局结束:30级之后的升级检测，关闭",
+        "x1": 960, "y1": 970, "clickStep": 1},
+    {"code": 3, "image_paths": ensure_image_paths,
+        "description": "挂机检测,确认 ",
+        "x1": 945, "y1": 676, "clickStep": 1}
 ]
 
-def handlingExceptions():
+def handlingExceptions(exception_image_lists):
+    print("自动检查异常情况开始......")
     for image_lists in exception_image_lists:
         for image_path in image_lists.get("image_paths"):
             try:
-                location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=0.8)
+                location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=1, confidence=0.8)
                 if location:
                     print(f"错误代码：{image_lists.get("code")},"
                           f"找到了{image_lists.get("description")}，")
@@ -117,22 +130,15 @@ def handlingExceptions():
                     return
             except pyautogui.ImageNotFoundException:
                 pass
-            # print(f"没找到下列异常：{image_lists.get("description")}")
-    print("没有异常出现")
+            time.sleep(0.5)
+    print("自动检查异常情况结束，没有异常出现")
 
-# 获取x和y坐标
-def check_one_image_location(image_path):
-    try:
-        location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=0.8)
-        if location:
-            return location
-    except pyautogui.ImageNotFoundException:
-        pass
-    return False
 
 # 循环查找图像的像素匹配度
 def loopList(image_list, loop_times, confidence, description, x, y, sleepTime,
-             pictureLocation=True, exceptions=False, randomMove=False):
+             pictureLocation=True, exceptions=False, randomMove=False, exception_image_lists=None):
+    if exception_image_lists is None:
+        exception_image_lists = []
     print(f"{description}")
     time.sleep(sleepTime)
     loopListCount = 0
@@ -140,12 +146,14 @@ def loopList(image_list, loop_times, confidence, description, x, y, sleepTime,
     while True:
         loopListCount += 1
         if loopListCount >= loop_times:
-            print(f"循环超过{loop_times}次，尝试处理异常，处理失败则跳出循环")
-            if exceptions:
-                handlingExceptions()
+            print(f"循环超过{loop_times}次，尝试点击默认位置({x},{y})，处理失败则跳出循环")
+            pydirectinput.moveTo(x, y)
+            pydirectinput.click()
             break
         for image_path in image_list:
             try:
+                if exceptions:
+                    handlingExceptions(exception_image_lists)
                 location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=5, confidence=confidence)
                 if location:
                     if pictureLocation:
@@ -159,8 +167,6 @@ def loopList(image_list, loop_times, confidence, description, x, y, sleepTime,
                         pydirectinput.moveTo(x, y)
                         pydirectinput.click()
                         break
-                if exceptions:
-                    handlingExceptions()
             except pyautogui.ImageNotFoundException:
                 pass
         print(f"第{loopListCount}次寻找:没找到{description},等待{sleepTime}秒重新寻找...")
@@ -188,19 +194,32 @@ def main():
         print("  \\____|  \\__,_| |_|  \\__,_| |_.__/  |_|  \\__, | |_|  \\__,_|")
         print("                                             |_|            ")
         print(f"第{scriptPlayTimesCount}次对战,当前时间为{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}")
-        loopList(start_image_paths, 50, 0.8, "自动点击开始按钮", 960, 980, 5, True)
+        loopList(start_image_paths,
+                 50, 0.8, "1.自动点击开始按钮", 960, 980, 5, True)
+
         # Exception:可能的无法连接、未准备、超过10min
-        loopList(enter_image_paths, 120, 0.8, "自动点击进入链接", 970, 920, 5, True, True)
-        loopList(ao_image_paths, 50, 0.8, "自动点击奥黛丽", 575, 996, 5, True)
-        loopList(lock_image_paths, 50, 0.8, "自动点击锁定", 918, 779, 5, True)
+        loopList(enter_image_paths,
+                 120, 0.8, "2.自动点击进入链接", 970, 920, 5, True,
+                 True, False, exception_game_start_image_lists)
+
+        loopList(ao_image_paths,
+                 50, 0.8, "3.自动点击奥黛丽", 575, 996, 5, True,
+                 True, False, exception_game_enter_image_lists)
+        loopList(lock_image_paths,
+                 50, 0.8, "4.自动点击锁定", 918, 779, 5, True)
         print("对局没有哪么快结束，先睡180s")
         time.sleep(180)
         print("已经睡了180s,结束睡眠")
-        loopList(nums_image_paths, 50, 0.9, "图像识别上方比分45-50", 800, 970, 3, True)
+        loopList(nums_image_paths,
+                 50, 0.9, "5.图像识别上方比分45-50", 800, 970, 3, True)
         # Exception:可能的升级和挂机检测
-        loopList(next_image_paths, 50, 0.8, "下一步", 1588, 1000, 5, True, True, True)
-        loopList(next_image_paths, 50, 0.8, "下一步", 1588, 1000, 5, True, True)
-        loopList(leave_image_paths, 50, 0.8, "离开", 1588, 1000, 5, True, True)
+        loopList(next_image_paths,
+                 50, 0.8, "6.下一步", 1588, 1000, 5, True,
+                 True, True, exception_game_over_image_paths)
+        loopList(next_image_paths,
+                 50, 0.8, "7.下一步", 1588, 1000, 5, True)
+        loopList(leave_image_paths,
+                 50, 0.8, "8.离开", 1588, 1000, 5, True)
         print("结束本次卡拉比丘对战")
 
 
