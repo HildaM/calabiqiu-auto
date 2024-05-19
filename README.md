@@ -63,6 +63,7 @@ cd src
 pyinstaller --add-data 'images:images' --onefile main.py
 pyinstaller --onefile pressQMultipleTimes.py
 pyinstaller --add-data 'images:images' --onefile testMain.py
+pyinstaller --add-data 'images:images' --onefile testPressQMultipleTimes.py
 pyinstaller -y main.spec
 
 # exe闪退

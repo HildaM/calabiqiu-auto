@@ -51,16 +51,11 @@ lock_image_paths = [
     resource_path('images\\lock2.png')
 ]
 nums_image_paths = [
-    resource_path('images\\r-45.png'),
-    resource_path('images\\r-46.png'),
-    resource_path('images\\r-47.png'),
-    resource_path('images\\r-48.png'),
-    resource_path('images\\r-49.png'),
-    resource_path('images\\b-45.png'),
-    resource_path('images\\b-46.png'),
-    resource_path('images\\b-47.png'),
-    resource_path('images\\b-48.png'),
-    resource_path('images\\b-49.png'),
+    resource_path('images\\m-45.png'),
+    resource_path('images\\m-46.png'),
+    resource_path('images\\m-47.png'),
+    resource_path('images\\m-48.png'),
+    resource_path('images\\m-49.png')
 ]
 back_image_paths = [
     resource_path('images\\back1.png'),
@@ -180,9 +175,20 @@ def loopList(image_list, loop_times, confidence, description, x, y, sleepTime,
             pydirectinput.click()
         time.sleep(sleepTime)
 
+def pressSkillKeys(pressTimes):
+    print("循环按下 Q 键")
+    count = 0
+    for i in range(pressTimes):
+        count += 1
+        pydirectinput.press('q')
+        # 添加一点延迟，以防止按键速度过快
+        time.sleep(0.05)
+        print(f"Q 键按压次数：{count}")
+    print("按下 Q 键结束")
+
 def main():
-    print('卡拉彼丘无限团竞脚本启动中...')
-    print('请位于无限团竞的准备界面')
+    print('卡拉彼丘团队乱斗脚本启动中...')
+    print('请位于团队乱斗的准备界面')
     print('启动完成')
     scriptPlayTimesCount = 0
     while True:  # 无限循环
@@ -208,9 +214,10 @@ def main():
                  True, False, exception_game_enter_image_lists)
         loopList(lock_image_paths,
                  50, 0.8, "4.自动点击锁定", 918, 779, 5, True)
-        print("对局没有哪么快结束，先睡180s")
-        time.sleep(180)
-        print("已经睡了180s,结束睡眠")
+        print("对局没有哪么快结束，先睡60s")
+        time.sleep(60)
+        print("已经睡了60s,结束睡眠")
+        pressSkillKeys(300)
         loopList(nums_image_paths,
                  50, 0.9, "5.图像识别上方比分45-50", 800, 970, 3, True)
         # Exception:可能的升级和挂机检测

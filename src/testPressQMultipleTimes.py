@@ -181,8 +181,8 @@ def loopList(image_list, loop_times, confidence, description, x, y, sleepTime,
         time.sleep(sleepTime)
 
 def main():
-    print('卡拉彼丘无限团竞脚本启动中...')
-    print('请位于无限团竞的准备界面')
+    count = 1
+    print('脚本启动中...')
     print('启动完成')
     scriptPlayTimesCount = 0
     while True:  # 无限循环
@@ -208,21 +208,17 @@ def main():
                  True, False, exception_game_enter_image_lists)
         loopList(lock_image_paths,
                  50, 0.8, "4.自动点击锁定", 918, 779, 5, True)
-        print("对局没有哪么快结束，先睡180s")
-        time.sleep(180)
-        print("已经睡了180s,结束睡眠")
-        loopList(nums_image_paths,
-                 50, 0.9, "5.图像识别上方比分45-50", 800, 970, 3, True)
-        # Exception:可能的升级和挂机检测
-        loopList(next_image_paths,
-                 50, 0.8, "6.下一步", 1588, 1000, 5, True,
-                 True, True, exception_game_over_image_paths)
-        loopList(next_image_paths,
-                 50, 0.8, "7.下一步", 1588, 1000, 5, True)
-        loopList(leave_image_paths,
-                 50, 0.8, "8.离开", 1588, 1000, 5, True)
+        time.sleep(60)
+        print("循环按下 Q 键")
+        for i in range(300):
+            pydirectinput.press('q')
+            # 添加一点延迟，以防止按键速度过快
+            time.sleep(0.05)
+            count += 1
+            print(f"Q 键按压次数：{count}")
+        print("按下 Q 键结束")
         print("结束本次卡拉比丘对战")
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
