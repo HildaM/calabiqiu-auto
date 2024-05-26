@@ -116,7 +116,8 @@ def handlingExceptions(exception_image_lists):
                 location = pyautogui.locateCenterOnScreen(image_path, minSearchTime=1, confidence=0.8)
                 if location:
                     print(f"错误代码：{image_lists.get("code")},"
-                          f"找到了{image_lists.get("description")}，")
+                          f"找到了：{image_path}图片，"
+                          f"描述为：{image_lists.get("description")}，")
                     for i in range(1, image_lists.get("clickStep")+1):
                         print(f"默认点击坐标为({image_lists.get("x"+str(i))},{image_lists.get("y"+str(i))})")
                         pydirectinput.moveTo(image_lists.get("x"+str(i)), image_lists.get("y"+str(i)))
@@ -164,10 +165,10 @@ def loopList(image_list, loop_times, confidence, description, x, y, sleepTime,
                         break
             except pyautogui.ImageNotFoundException:
                 pass
-        print(f"第{loopListCount}次寻找:没找到{description},等待{sleepTime}秒重新寻找...")
         if findThePic:
             print(f"{description}完毕")
             return
+        print(f"第{loopListCount}次寻找:没找到{description},等待{sleepTime}秒重新寻找...")
         if randomMove:
             print("保持运动等待游戏结束")
             pydirectinput.press('w')
@@ -217,9 +218,9 @@ def main():
         print("对局没有哪么快结束，先睡60s")
         time.sleep(60)
         print("已经睡了60s,结束睡眠")
-        pressSkillKeys(300)
+        # pressSkillKeys(300)
         loopList(nums_image_paths,
-                 50, 0.9, "5.图像识别上方比分45-50", 800, 970, 3, True)
+                 50, 0.95, "5.图像识别上方比分45-50", 800, 970, 3, True)
         # Exception:可能的升级和挂机检测
         loopList(next_image_paths,
                  50, 0.8, "6.下一步", 1588, 1000, 5, True,
@@ -229,6 +230,7 @@ def main():
         loopList(leave_image_paths,
                  50, 0.8, "8.离开", 1588, 1000, 5, True)
         print("结束本次卡拉比丘对战")
+        break
 
 
 if __name__ == "__main__":

@@ -1,20 +1,26 @@
-# calabiqiu-auto 2.1版本
+# calabiqiu-auto 2.6版本
 # 卡拉彼丘自动挂机脚本
 
 # 最新版本更新介绍
-    1.更新错误处理代码。
-    2.错误处理代码截图新增时间间隔，减少机器压力
-    3.截图优化处理逻辑，遍历会有问题，只有‖才能点两次，其它通通1次
-    4.修复测试错误，排了10min后关闭并没有开始匹配
+    1.优化10分钟排队后取消的逻辑
+    2.优化重复内容输出
+    3.提供多种选择
 
 # 下载地址
 链接：https://pan.baidu.com/s/1lS4xHiENLzvmsLmrcNFKzQ?pwd=2233 
 提取码：2233
 
-卡拉比丘75次技能使用脚本 —— pressQMultipleTimes.exe
-手动进入团队乱斗，手动锁定奥黛丽，打开脚本，会自动按300次Q，然后可以挂机等结束
-下载链接：https://pan.baidu.com/s/1N2_V-t67oRiycZOq4ufJBw?pwd=2233 
-提取码：2233
+# 下载地址文件介绍
+    calabiqiu-auto2.6.exe
+        无限团竞自动挂机脚本，默认奥黛丽
+    calabiqiu-auto2.6-bear.exe
+        无限团竞自动挂机脚本，默认伊维特
+    TeamBrawlForMission.exe
+        只进行一次团队死斗，为了完成75次技能任务的脚本
+    pressQMultipleTimes.exe
+        卡拉比丘75次技能使用脚本
+        手动进入团队乱斗，手动锁定奥黛丽，打开脚本，会自动按300次Q，然后可以挂机等结束
+
 
 # 使用方法
 1.下载：calabiqiu-auto.exe
@@ -40,6 +46,10 @@
     2.错误处理代码截图新增时间间隔，减少机器压力
     3.截图优化处理逻辑，遍历会有问题，只有‖才能点两次，其它通通1次
     4.修复测试错误，排了10min后关闭并没有开始匹配
+2.6
+    1.优化10分钟排队后取消的逻辑
+    2.优化重复内容输出
+    3.提供多种选择
 
 # 项目背景
 需求分析：卡拉比丘有完成任务需求，和自动挂机升级需求，和好感度需求
@@ -64,6 +74,8 @@ pyinstaller --add-data 'images:images' --onefile main.py
 pyinstaller --onefile pressQMultipleTimes.py
 pyinstaller --add-data 'images:images' --onefile testMain.py
 pyinstaller --add-data 'images:images' --onefile testPressQMultipleTimes.py
+pyinstaller --add-data 'images:images' --onefile testTeamBrawl.py
+pyinstaller --add-data 'images:images' --onefile testTeamBrawlForMission.py
 pyinstaller -y main.spec
 
 # exe闪退
