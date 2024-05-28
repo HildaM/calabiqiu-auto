@@ -46,7 +46,7 @@ start_image_paths = [
 ]
 enter_image_paths = [resource_path('images\\enter.png')]
 ao_image_paths = [resource_path('images\\ao.png')]
-xiong_image_paths = [resource_path('images\\xiong.png')]
+xiaohuajia_image_paths = [resource_path('images\\xiaohuajia.png')]
 lock_image_paths = [
     resource_path('images\\lock1.png'),
     resource_path('images\\lock2.png')
@@ -217,8 +217,8 @@ def main():
                  9999, 0.8, "2.自动点击进入链接", 970, 920, 5, True,
                  True, False, exception_game_start_image_lists)
 
-        loopList(xiong_image_paths,
-                 9999, 0.8, "3.自动点击伊维特", 575, 996, 5, True,
+        loopList(xiaohuajia_image_paths,
+                 9999, 0.8, "3.自动点击小画家", 575, 996, 5, True,
                  True, False, exception_game_enter_image_lists)
         loopList(lock_image_paths,
                  50, 0.8, "4.自动点击锁定", 918, 779, 5, True)

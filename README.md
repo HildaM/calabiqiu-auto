@@ -15,6 +15,8 @@
         无限团竞自动挂机脚本，默认奥黛丽
     calabiqiu-auto2.6-bear.exe
         无限团竞自动挂机脚本，默认伊维特
+    calabiqiu-auto2.6-xiaohuajia.exe
+        无限团竞自动挂机脚本，默认小画家
     TeamBrawlForMission.exe
         只进行一次团队死斗，为了完成75次技能任务的脚本
     pressQMultipleTimes.exe
