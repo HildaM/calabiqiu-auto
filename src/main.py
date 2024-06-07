@@ -221,9 +221,9 @@ def main():
                  True, False, exception_game_enter_image_lists)
         loopList(lock_image_paths,
                  50, 0.8, "4.自动点击锁定", 918, 779, 5, True)
-        print("对局没有哪么快结束，先睡180s")
-        time.sleep(180)
-        print("已经睡了180s,结束睡眠")
+        print("对局没有哪么快结束，先睡120s")
+        time.sleep(120)
+        print("结束睡眠")
         loopList(nums_image_paths,
                  50, 0.92, "5.图像识别上方比分45-50", 800, 970, 3, True)
         # Exception:可能的升级和挂机检测
